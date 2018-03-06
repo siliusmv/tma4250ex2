@@ -1,0 +1,10 @@
+*.Rproj.user
+.RData
+.Rhistory
+.Ruserdata
+*.pdf
+*.html
+*_cache
+*_files
+*_book
+.log
