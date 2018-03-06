@@ -1,0 +1,17 @@
+
+
+```{r}
+setwd("../data/")
+
+cells_data <- ppinit("../data/cells.dat")
+red_data <- ppinit("../data/redwood.dat")
+pines_data <- ppinit("../data/pines.dat")
+```
+
+
+
+```{r}
+
+plotProcess(pines_data)
+
+```
