@@ -1,6 +1,7 @@
+library(MASS)
+library(spatial)
 
-
-
+cells_data <- ppinit("cells.dat")
 
 plotProcess <- function(data){
 
