@@ -16,6 +16,17 @@ plotProcess <- function(data){
   return(gg)
 }
 
+plotLFunc <- function(data, title){
+
+  dat <- data.frame(data$x, data$y)
+  names(dat) <- c("x", "y")
+
+  gg <- ggplot(data = dat) +
+    geom_line(aes(x = x, y = y)) +
+    labs(title = title)
+
+  return(gg)
+}
 
 # Dafuck?
 # val <- Kfn(data, 10)

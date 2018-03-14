@@ -6,7 +6,7 @@ red_data <- ppinit("../data/redwood.dat")
 pines_data <- ppinit("../data/pines.dat")
 ```
 
-lets test this! \todo{Hallo, Erik!}
+lets test this! \todo{Hallo, Erik! Se så mye gøy vi kan gjøre med disse :D :D :D}
 
 ```{r}
 
@@ -15,5 +15,18 @@ plotProcess(cells_data)
 plotProcess(red_data)
 plotProcess(pines_data)
 
-
 ```
+
+
+```{r}
+
+cells_L <- Kfn(cells_data, 1)
+red_L <- Kfn(red_data, 1)
+pines_L <- Kfn(pines_data, 1)
+
+plotLFunc(cells_L, "cells")
+plotLFunc(red_L, "redwood")
+plotLFunc(pines_L, "pines")
+```
+
+

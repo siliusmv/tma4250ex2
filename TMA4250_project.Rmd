@@ -20,7 +20,7 @@ library(spatial)
 library(ggplot2)
 library(dplyr)
 source("R/problem1.R")
-
+knitr::read_chunk("R/problem1.R")
 
 
 ```
