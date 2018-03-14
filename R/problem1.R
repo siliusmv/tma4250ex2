@@ -18,4 +18,4 @@ plotProcess <- function(data){
 
 
 # Dafuck?
-val <- Kfn(data, 10)
+# val <- Kfn(data, 10)

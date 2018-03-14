@@ -1,17 +1,19 @@
 
 
 ```{r}
-setwd("../data/")
-
 cells_data <- ppinit("../data/cells.dat")
 red_data <- ppinit("../data/redwood.dat")
 pines_data <- ppinit("../data/pines.dat")
 ```
 
-
+lets test this! \todo{Hallo, Erik!}
 
 ```{r}
 
+
+plotProcess(cells_data)
+plotProcess(red_data)
 plotProcess(pines_data)
+
 
 ```
