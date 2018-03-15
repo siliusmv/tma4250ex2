@@ -10,6 +10,10 @@ pines_data <- ppinit("../data/pines.dat")
 
 lets test this! \todo{Hallo, Erik! Se så mye gøy vi kan gjøre med disse :D :D :D}
 
+\begin{equation}
+\bm{\mu} \neq \bm{\Sigma} + \bm{x} - x
+\end{equation}
+
 ```{r}
 
 
@@ -34,3 +38,11 @@ plotLFunc(pines_L, "pines")
 ```
 
 
+## c)
+
+```{r}
+testIfPois(cells_data, 100)
+testIfPois(red_data, 100)
+testIfPois(pines_data, 100)
+
+```
