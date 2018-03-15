@@ -2,3 +2,4 @@
 
 ## a)
 
+The Neumann-Scott cluster model is a good model for simulating events from a clustered event RF. 

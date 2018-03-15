@@ -21,5 +21,3 @@ gg <- ggplot(data=obspines, aes(x, y)) +
   labs(title = "Number of pine tree observations")
 gg
 ```
-
-
