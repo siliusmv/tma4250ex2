@@ -1,7 +1,7 @@
 
 cells_data <- ppinit("cells.dat")
 
-plotProcess <- function(data, title){
+plotProcess <- function(data, title = ""){
 
   dat <- data.frame(data$x, data$y)
   names(dat) <- c("x", "y")

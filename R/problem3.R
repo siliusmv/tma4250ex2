@@ -1,18 +1,26 @@
 
 
 
-clusterMC <- function(lambda, sigma, area, childIntensity){
+clusterMC <- function(args){
+
+  # lambda, sigma, area, childIntensity
+
+  lambda_m <- args$lambda_m
+  sigma <- args$sigma
+  area <- args$area
+  lambda_c <- args$lambda_c
+
 
   events <- NULL
 
   # Do we need to multiply lambda with size of area?????
-  k_m <- rpois(n = 1, lambda = lambda)
+  k_m <- rpois(n = 1, lambda = lambda_m)
 
   mothers <- matrix(0, k_m, 2)
   mothers[, 1] <- runif(k_m) * (area[2] - area[1]) + area[1]
   mothers[, 2] <- runif(k_m) * (area[4] - area[3]) + area[3]
 
-  num_child <- childIntensity(mothers)
+  num_child <- rpois(n = k_m, lambda = lambda_c)
 
   cov_mat <- diag(sigma^2, 2)
 
@@ -20,10 +28,11 @@ clusterMC <- function(lambda, sigma, area, childIntensity){
     for(j in 1:num_child[i]){
       x <- generateMultinormal(mu = mothers[i, ], cov_mat = cov_mat)
       if(isInside(x, area)){
-        events <- rbind(events, x)
+        events <- rbind(events, t(x))
       }
     }
   }
+  events <- list(x = events[, 1], y = events[, 2], area = area)
   return(events)
 }
 
