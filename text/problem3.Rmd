@@ -1,0 +1,4 @@
+# Problem 3: Clustered event spatial variables
+
+## a)
+

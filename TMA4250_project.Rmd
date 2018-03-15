@@ -20,7 +20,9 @@ library(spatial)
 library(ggplot2)
 library(dplyr)
 source("R/problem1.R")
+source("R/problem3.R")
 knitr::read_chunk("R/problem1.R")
+knitr::read_chunk("R/problem3.R")
 
 
 ```
@@ -28,3 +30,5 @@ knitr::read_chunk("R/problem1.R")
 ```{r child = 'text/problem1.Rmd'}
 ```
 
+```{r child = "text/problem3.Rmd"}
+```
