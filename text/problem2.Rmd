@@ -1,0 +1,25 @@
+# Problem 2: Bayesian inversion in Poisson RF
+
+## a)
+
+We are given a $(300 \times 300)$ m$^2$ area containing a pine tree forest, and we discretise the area into a regular $(30 \times 30)$-grid $\mathbf{L}$, each unit having size 100 m$^2$. The unknown true number of trees is given by $\{k(\bm{x}\}$
+
+```{r}
+obsprob <- data.frame(read.table("../data/obsprob.txt", header = TRUE))
+gg <- ggplot(data=obsprob, aes(x,y)) +
+  geom_count(aes(color = obsprob$alpha)) +
+  scale_color_viridis() +
+  labs(title = "Probability of pine tree observations")
+gg
+```
+
+```{r}
+obspines <- data.frame(read.table("../data/obspines.txt", header = TRUE))
+gg <- ggplot(data=obspines, aes(x, y)) +
+  geom_count(aes(color = obspines$N_obs)) +
+  scale_color_viridis() +
+  labs(title = "Number of pine tree observations")
+gg
+```
+
+
