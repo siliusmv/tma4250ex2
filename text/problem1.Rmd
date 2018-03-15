@@ -1,4 +1,6 @@
+# Problem 1: Analysis of Point Patterns
 
+## a)
 
 ```{r}
 cells_data <- ppinit("../data/cells.dat")
@@ -11,12 +13,14 @@ lets test this! \todo{Hallo, Erik! Se så mye gøy vi kan gjøre med disse :D :D
 ```{r}
 
 
-plotProcess(cells_data)
-plotProcess(red_data)
-plotProcess(pines_data)
+plotProcess(cells_data, "cells")
+plotProcess(red_data, "redwood")
+plotProcess(pines_data, "pines")
 
 ```
 
+
+## b)
 
 ```{r}
 
