@@ -7,8 +7,10 @@ We are given a $(300 \times 300)$ m$^2$ area containing a pine tree forest, and 
 ```{r}
 obsprob <- data.frame(read.table("../data/obsprob.txt", header = TRUE))
 gg <- ggplot(data=obsprob, aes(x,y)) +
-  geom_count(aes(color = obsprob$alpha)) +
-  scale_color_viridis() +
+  geom_raster(aes(fill = obsprob$alpha)) +
+  # geom_count(aes(col = obsprob$alpha)) +
+  scale_fill_viridis() +
+  # scale_colour_viridis() +
   labs(title = "Probability of pine tree observations")
 gg
 ```
