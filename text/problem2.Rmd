@@ -1,25 +1,98 @@
 # Problem 2: Bayesian inversion in Poisson RF
 
+```{r}
+pines_data <- ppinit("../data/pines.dat")
+```
+
 ## a)
 
-We are given a $(300 \times 300)$ m$^2$ area containing a pine tree forest, and we discretise the area into a regular $(30 \times 30)$-grid $\mathbf{L}$, each unit having size 100 m$^2$. The unknown true number of trees is given by $\{k(\bm{x}\}$ 
+We are given a $(300 \times 300)$ m$^2$ area containing a pine tree forest, and we discretise the area into a regular $(30 \times 30)$-grid $\mathbf{L}$, each unit having size 100 m$^2$. The unknown true number of trees located in each unit is given by $\bm{k} = \{k(\bm{x}) | \bm{x} \in \mathbf{L}\}$, and the probability of observing a pine tree in each grid unit is given by $\bm{\alpha} = \{\alpha(\bm{x}) | \bm{x} \in \mathbf{L}\}$ with $\alpha(\bm{x}) \in [0,1] \forall \bm{x} \in \mathbf{L}$, and is plotted in figure \@ref(fig:pineTreeObsProb). The number of pine trees observed in each grid unit is given by $\bm{d} = \{d(\bm{x}) | \bm{x} \in \mathbf{L}\}$, and these are displayed in figure \@ref(fig:pineTreeObs).
 
-```{r}
+```{r pineTreeObsProb, fig.cap = "The probability of observing a pine tree for each grid unit in L."}
 obsprob <- data.frame(read.table("../data/obsprob.txt", header = TRUE))
 gg <- ggplot(data=obsprob, aes(x,y)) +
   geom_raster(aes(fill = obsprob$alpha)) +
-  # geom_count(aes(col = obsprob$alpha)) +
   scale_fill_viridis() +
-  # scale_colour_viridis() +
   labs(title = "Probability of pine tree observations")
 gg
 ```
 
-```{r}
+```{r pineTreeObs, fig.cap = "The number of observed pine trees in each grid unit in L."}
 obspines <- data.frame(read.table("../data/obspines.txt", header = TRUE))
 gg <- ggplot(data=obspines, aes(x, y)) +
-  geom_count(aes(color = obspines$N_obs)) +
-  scale_color_viridis() +
+  geom_raster(aes(fill = obspines$N_obs)) +
+  scale_fill_viridis() +
   labs(title = "Number of pine tree observations")
 gg
 ```
+
+We make the assumption that the observations given the true number of pine trees are spatially uncorrelated between grid units. We also assume that we do not observe pine trees that are not there, giving the condition $\bm{d} \leqslant \bm{k}$. For each grid unit $i$, we therefore get a binomial likelihood model with $d_i \leqslant k_i$ and probabilities $\alpha_i$, written out as
+
+\begin{equation}
+[d_i | k_i] \sim p(d_i | k_i) = \binom{k_i}{d_i} \alpha_i^{d_i} (1 - \alpha_i)^{k_i - d_i}.
+\end{equation}
+
+As we have assumed independence between the grid units, the joint likelihood model is simply the product of the individual likelihoods over the whole grid $\mathbf{L}$, giving
+
+\begin{equation}
+[\bm{d} | \bm{k}] \sim p(\bm{d} | \bm{k}) = \prod_{i=1}^{n} p(d_i | k_i) = \prod_{i=1}^{n} \binom{k_i}{d_i} \alpha_i^{d_i} (1 - \alpha_i)^{k_i - d_i},
+\end{equation}
+
+where $n$ is the number of grid units in $\mathbf{L}$.
+
+
+## b)
+
+We now assume that the distribution of pine trees is according to a stationary Poisson RF with model parameter $\lambda_k$. Define $\Delta_i$ to be the area of grid unit $i$. By construction, $\Delta_i = \Delta$ is equal for all grid units. Now, let $\pi_k = \lambda_k \Delta$, and note that for a Poisson model disjoint areas are independent. We thus get
+
+\begin{equation}
+\bm{k} \sim p(\bm{k}) = \prod_{i=1}^{n} \frac{\pi_k^{k_i}}{k_i !} \exp{(-\pi_k)}.
+\end{equation}
+
+
+## c)
+
+The maximum likelihood estimate of $\lambda_k$ can be found through
+
+\begin{equation}
+\hat{\lambda}_k = \arg \max_{\lambda_k} \left(\prod_{i=1}^{n} \frac{(\alpha_i \lambda_k \Delta)^{d_i}}{d_i !} \exp{(-\alpha_i \lambda_k \Delta)}\right),
+\end{equation}
+
+and can be written explicitly as
+
+\begin{equation}
+\hat{\lambda}_k = \frac{1}{|\mathbf{L}} \frac{\sum_{i=1}^{n} d_i}{\sum_{i=1}^{n} \alpha_i},
+\end{equation}
+
+where $\mathbf{L}$ is the area of grid $\mathbf{L}$. By running the following `R` code, we get a numerical estimate of $\lambda_k$.
+
+```{r}
+lambda_hat <- (1/(300*300)) * sum(obspines$N_obs)/sum(obsprob$alpha)
+lambda_hat
+```
+
+```{r}
+u <- ceiling(runif(10, 0, 30)) * 10 - 5
+v <- ceiling(runif(10, 0, 30)) * 10 - 5
+N_simObs <- vector("numeric", 30*30)
+simObs <- obspines
+for (i in 1:10) {
+  for (j in 1:(30*30)) {
+    if (u[i] == simObs$x[j] && v[i] == simObs$y[j]) {
+      N_simObs[j] <- N_simObs[j] + 1
+    }
+  }
+}
+simObs$N_obs <- N_simObs
+gg <- ggplot(data=simObs, aes(x, y)) +
+  geom_raster(aes(fill = simObs$N_obs)) +
+  scale_fill_viridis() +
+  labs(title = "Simulation of number of pine trees")
+gg
+```
+
+
+## d)
+
+The posterior discretised event-count model can be found by noting that $p(\bm{k} | \bm{d}) \propto p(\bm{d} | \bm{k}) p(\bm{k})$, where we know that $p(\bm{d} | \bm{k})$ is a product of binomial distribution, and $p(\bm{k})$ is a product of Poisson distributions, as argued in a) and b).
+
