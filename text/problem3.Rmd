@@ -2,3 +2,21 @@
 
 ## a)
 
+The Neumann-Scott cluster model is a good model for simulating events from a clustered event RF. 
+
+
+```{r}
+
+mothers <- 12
+children <- 5
+sigma <- 0.05
+area <- c(0, 1, 0, 1)
+
+cluster_args <- list(lambda_m = mothers, lambda_c = children, sigma = sigma, area = area)
+
+testIfPois(data = red_data,
+           simulatePois = clusterMC,
+           args = cluster_args,
+           title = "redwood")
+
+```

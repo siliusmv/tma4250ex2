@@ -1,7 +1,7 @@
 
 cells_data <- ppinit("cells.dat")
 
-plotProcess <- function(data, title){
+plotProcess <- function(data, title = ""){
 
   dat <- data.frame(data$x, data$y)
   names(dat) <- c("x", "y")
@@ -28,7 +28,7 @@ plotLFunc <- function(data, title){
 }
 
 
-testIfPois <- function(data, num_real, alpha = .1){
+testIfPois <- function(data, num_real = 100, alpha = .1, simulatePois, args, title = ""){
 
   area_size <- (data$area[2] - data$area[1]) * (data$area[4] - data$area[3])
   n <- length(data$x)
@@ -39,18 +39,11 @@ testIfPois <- function(data, num_real, alpha = .1){
   all_data_mat <- NULL
 
   for(i in 1:num_real){
-    pois <- simulatePois(n = n, area = data$area)
+    pois <- simulatePois(args)
     poisL <- Kfn(pois, area_size)
-
-    # pois_data <- cbind(poisL$x, poisL$y)
-    # pois_data <- cbind(pois_data, as.character(i))
-    # all_data <- rbind(all_data, pois_data)
 
     all_data_mat <- cbind(all_data_mat, poisL$y)
   }
-
-  # all_data <- data.frame(all_data)
-  # names(all_data) <- c("x", "y", "run")
 
   realL <- Kfn(data, area_size)
   plot_data <- data.frame(cbind(realL$x, realL$y))
@@ -69,7 +62,8 @@ testIfPois <- function(data, num_real, alpha = .1){
   gg <- ggplot(data = plot_data) +
     geom_line(aes(x = x, y = y)) +
     geom_line(aes(x = x, y = upper), linetype = "dashed") +
-    geom_line(aes(x = x, y = lower), linetype = "dashed")
+    geom_line(aes(x = x, y = lower), linetype = "dashed") +
+    labs(title = title)
 
   return(gg)
 
@@ -77,7 +71,10 @@ testIfPois <- function(data, num_real, alpha = .1){
 
 
 
-simulatePois <- function(n, area){
+simulateHomoPois <- function(args){
+
+  n <- args$n
+  area <- args$area
 
   x_coord <- runif(n) * (area[2] - area[1]) + area[1]
   y_coord <- runif(n) * (area[4] - area[3]) + area[3]

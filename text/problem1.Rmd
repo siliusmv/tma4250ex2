@@ -41,8 +41,20 @@ plotLFunc(pines_L, "pines")
 ## c)
 
 ```{r}
-testIfPois(cells_data, 100)
-testIfPois(red_data, 100)
-testIfPois(pines_data, 100)
+testIfPois(data = cells_data, 
+           simulatePois = simulateHomoPois, 
+           args = list(n = length(cells_data$x), area = cells_data$area),
+           title = "cells")
+
+testIfPois(red_data, 
+           simulatePois = simulateHomoPois, 
+           args = list(n = length(red_data$x), area = red_data$area),
+           title = "redwood" )
+
+testIfPois(pines_data,
+           simulatePois = simulateHomoPois, 
+           args = list(n = length(pines_data$x), area = pines_data$area),
+           title = "pines")
+
 
 ```
