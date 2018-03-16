@@ -3,6 +3,7 @@
 ## a)
 
 We are given a $(300 \times 300)$ m$^2$ area containing a pine tree forest, and we discretise the area into a regular $(30 \times 30)$-grid $\mathbf{L}$, each unit having size 100 m$^2$. The unknown true number of trees is given by $\{k(\bm{x}\}$
+We are given a $(300 \times 300)$ m$^2$ area containing a pine tree forest, and we discretise the area into a regular $(30 \times 30)$-grid $\mathbf{L}$, each unit having size 100 m$^2$. The unknown true number of trees is given by $\{k(\bm{x}\}$ 
 
 ```{r}
 obsprob <- data.frame(read.table("../data/obsprob.txt", header = TRUE))
