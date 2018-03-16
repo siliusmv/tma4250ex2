@@ -100,7 +100,8 @@ acceptanceRepulsive <- function(events_mat, new_coords, i, k, phi_0, phi_1, tau_
     }
   }
 
-  log_res <- old_sum - new_sum
+  # FEIL????
+  log_res <- new_sum - old_sum
 
   if(log_res > 0){
     log_res <- 0
