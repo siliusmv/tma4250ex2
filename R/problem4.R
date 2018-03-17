@@ -137,6 +137,46 @@ evaluateMinDist <- function(data){
   return(min_dist)
 }
 
+evaluateMaxDist <- function(data){
+
+  max_dist <- vector("numeric", dim(data)[3])
+
+  for(i in 1:dim(data)[3]){
+    max_dist[i] <- max(dist(data[, , i]))
+  }
+
+  return(max_dist)
+}
+
+evaluateMeanMinDist <- function(data){
+
+  n <- dim(data)[1]
+  mean_min_dist <- vector("numeric", dim(data)[3])
+
+  for(i in 1:dim(data)[3]){
+    distances <- as.matrix(dist(data[, , i])) + diag(Inf, n)
+    min_distances <- apply(distances, 2, min)
+    mean_min_dist[i] <- mean(min_distances)
+  }
+
+  return(mean_min_dist)
+}
+
+evaluateMeanMaxDist <- function(data){
+
+  n <- dim(data)[1]
+  mean_max_dist <- vector("numeric", dim(data)[3])
+
+  for(i in 1:dim(data)[3]){
+    distances <- as.matrix(dist(data[, , i])) + diag(-Inf, n)
+    max_distances <- apply(distances, 2, max)
+    mean_max_dist[i] <- mean(max_distances)
+  }
+
+  return(mean_max_dist)
+}
+
+
 
 testBurnIn <- function(evalFunc, acceptanceFunc, num_iter, jumps, args, num_test){
 
@@ -161,7 +201,8 @@ testBurnIn <- function(evalFunc, acceptanceFunc, num_iter, jumps, args, num_test
   names(eval_mat) <- c("val", "iter", "run")
 
   gg <- ggplot(data = eval_mat) +
-    geom_line(aes(y = val, x = iter, col = run))
+    geom_line(aes(y = val, x = iter, col = run)) +
+    labs(x = "Sample nr.")
 
   gg
 }

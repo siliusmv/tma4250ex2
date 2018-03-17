@@ -30,7 +30,7 @@
   
   
   
-  testBurnIn(evalFunc = evaluateMinDist,
+  testBurnIn(evalFunc = evaluateMeanMinDist,
              acceptanceFunc = acceptanceRepulsive,
              num_iter = num_iter,
              jumps = jumps,
@@ -40,5 +40,7 @@
   
   # doMCMC <- function(acceptanceFunc, num_iter, jumps, args, events_mat){
 
-
+  plot_data <- data.frame(data[, , dim(data)[3]])
+  names(plot_data) <- c("x", "y")
+  plotProcess(plot_data)
 ```

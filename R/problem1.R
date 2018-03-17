@@ -1,34 +1,42 @@
 
-cells_data <- ppinit("cells.dat")
-
-plotProcess <- function(data, title = ""){
+plotProcess <- function(data, title = NULL){
 
   dat <- data.frame(data$x, data$y)
   names(dat) <- c("x", "y")
 
   gg <- ggplot(data = dat) +
-    geom_point(aes(x = x, y = y)) +
-    xlim(data$area["xl"], data$area["xu"]) +
-    ylim(data$area["yl"], data$area["yu"]) +
-    labs(title = title)
+    geom_point(aes(x = x, y = y))
+
+  if(!is.null(data$area)){
+    gg <- gg +
+      xlim(data$area["xl"], data$area["xu"]) +
+      ylim(data$area["yl"], data$area["yu"])
+  }
+
+  if(!is.null(title)){
+    gg <- gg + labs(title = title)
+  }
 
   return(gg)
 }
 
-plotLFunc <- function(data, title){
+plotLFunc <- function(data, title = NULL){
 
   dat <- data.frame(data$x, data$y)
   names(dat) <- c("x", "y")
 
   gg <- ggplot(data = dat) +
     geom_line(aes(x = x, y = y)) +
-    labs(title = title, x = TeX("$\\tau$"), y = TeX("$\\mathbf{L}$"))
+    labs(x = TeX("$\\tau$"), y = TeX("$\\mathbf{L}$"))
+  if(!is.null(title)){
+    gg <- gg + labs(title = title)
+  }
 
   return(gg)
 }
 
 
-testIfPois <- function(data, num_real = 100, alpha = .1, simulatePois, args, title = ""){
+testIfPois <- function(data, num_real = 100, alpha = .1, simulatePois, args, title = NULL){
 
   area_size <- (data$area[2] - data$area[1]) * (data$area[4] - data$area[3])
   n <- length(data$x)
@@ -62,8 +70,10 @@ testIfPois <- function(data, num_real = 100, alpha = .1, simulatePois, args, tit
   gg <- ggplot(data = plot_data) +
     geom_line(aes(x = x, y = y)) +
     geom_line(aes(x = x, y = upper), linetype = "dashed") +
-    geom_line(aes(x = x, y = lower), linetype = "dashed") +
-    labs(title = title)
+    geom_line(aes(x = x, y = lower), linetype = "dashed")
+  if(!is.null(title)){
+    gg <- gg + labs(title = title)
+  }
 
   return(gg)
 
