@@ -10,7 +10,7 @@
   phi_1 <- 1
   tau_0 <- 0.1
   k <- length(cells_data$x)
-  num_iter <- 1000
+  num_iter <- 10000
   area <- cells_data$area
   jumps <- 10
   
@@ -26,6 +26,8 @@
                  num_iter = num_iter,
                  jumps = jumps,
                  args = args)
+  
+  
   
   
   testBurnIn(evalFunc = evaluateMinDist,

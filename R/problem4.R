@@ -15,11 +15,17 @@ repulsiveMC <- function(args){
 
 phiFunc <- function(phi_0, phi_1, tau_0, tau){
 
-  negative <- ifelse(test = tau < 0,
+  # if(tau > tau_0){
+  #   return(phi_0 * exp(-phi_1 * (tau - tau_0)))
+  # }
+  #
+  # return(phi_0)
+
+  nonpositive <- ifelse(test = tau <= 0,
                     yes = TRUE,
                     no = FALSE)
 
-  res <- ifelse(test = (negative == FALSE),
+  res <- ifelse(test = (nonpositive == FALSE),
                 yes = phi_0,
                 no = 0)
 
@@ -81,24 +87,32 @@ doMCMC <- function(acceptanceFunc, num_iter, jumps, args){
 
 
 
-
 acceptanceRepulsive <- function(events_mat, new_coords, i, k, phi_0, phi_1, tau_0, phiFunc){
 
   old_coords <- events_mat[i, ]
   new_sum <- 0
   old_sum <- 0
 
-  for(j in 1:k){
-    if(j != i){
+  tau_new <- sqrt((new_coords[1] - events_mat[, 1])^2 +
+                    (new_coords[2] - events_mat[, 2])^2)
+  tau_old <- sqrt((old_coords[1] - events_mat[, 1])^2 +
+                    (old_coords[2] - events_mat[, 2])^2)
 
-      tau_new <- dist(rbind(new_coords, events_mat[j, ]))
-      tau_old <- dist(rbind(old_coords, events_mat[j, ]))
 
-      new_sum <- new_sum + phiFunc(phi_0, phi_1, tau_0, tau_new)
-      old_sum <- old_sum + phiFunc(phi_0, phi_1, tau_0, tau_old)
+  new_sum <- sum(phiFunc(phi_0, phi_1, tau_0, tau_new))
+  old_sum <- sum(phiFunc(phi_0, phi_1, tau_0, tau_old))
 
-    }
-  }
+  # for(j in 1:k){
+  #   if(j != i){
+  #
+  #     tau_new <- dist(rbind(new_coords, events_mat[j, ]))
+  #     tau_old <- dist(rbind(old_coords, events_mat[j, ]))
+  #
+  #     new_sum <- new_sum + phiFunc(phi_0, phi_1, tau_0, tau_new)
+  #     old_sum <- old_sum + phiFunc(phi_0, phi_1, tau_0, tau_old)
+  #
+  #   }
+  # }
 
   # FEIL????
   log_res <- new_sum - old_sum
