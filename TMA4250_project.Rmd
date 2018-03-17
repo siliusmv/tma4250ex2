@@ -20,6 +20,8 @@ library(spatial)
 library(ggplot2)
 library(dplyr)
 library(viridis)
+library(bookdown)
+library(latex2exp)
 source("R/problem1.R")
 source("R/problem3.R")
 source("R/problem4.R")
@@ -39,5 +41,5 @@ knitr::read_chunk("R/problem4.R")
 ```{r child = "text/problem3.Rmd"}
 ```
 
-```{r child = "text/problem4.Rmd"}
-```
+<!-- ```{r child = "text/problem4.Rmd"} -->
+<!-- ``` -->

@@ -22,7 +22,7 @@ plotLFunc <- function(data, title){
 
   gg <- ggplot(data = dat) +
     geom_line(aes(x = x, y = y)) +
-    labs(title = title)
+    labs(title = title, x = TeX("$\\tau$"), y = TeX("$\\mathbf{L}$"))
 
   return(gg)
 }

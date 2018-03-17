@@ -2,57 +2,78 @@
 
 ## a)
 
+The point patterns from the three different data sets can be seen in figure \@ref(fig:processes). The biological cell data is very evenly spread out. There is absolutely no clustering. This indicates that there is some natural repulsion happening. The cell data might depend on the amount of minerals and moisture of the soil. If to much biological cells get close to each other, they will compete for resources until all but one of them dies.
+
+The redwood locations are highly clustered. This might happen because the redwood trees work together to fend of other tree types. It can also be expected that the trees will be close if the seeds from one tree is unable to travel greater distances.
+
+The pine trees looks to be very randomly distributed. There is some clustering, and some areas without any growth. 
+<!-- Why does this happen??  -->
+
+
 ```{r}
 cells_data <- ppinit("../data/cells.dat")
 red_data <- ppinit("../data/redwood.dat")
 pines_data <- ppinit("../data/pines.dat")
 ```
 
-lets test this! \todo{Hallo, Erik! Se så mye gøy vi kan gjøre med disse :D :D :D}
+(ref:processes) Point patterns displaying the biological cell data, redwood tree data and pine tree data of three different $1 \times 1$ grids.
 
-\begin{equation}
-\bm{\mu} \neq \bm{\Sigma} + \bm{x} - x
-\end{equation}
+```{r processes, fig.show="hold", out.width="32%", fig.asp=1, fig.cap = "(ref:processes)"}
 
-```{r}
-
-
-plotProcess(cells_data, "cells")
-plotProcess(red_data, "redwood")
-plotProcess(pines_data, "pines")
+plotProcess(cells_data, "Biological cells")
+plotProcess(red_data, "Redwood trees")
+plotProcess(pines_data, "Pine trees")
 
 ```
 
 
+
+
 ## b)
 
-```{r}
+\todo{The last part of the task has not been done. You need to specify the L-function and display the theoretical function along with the empirical ones.}
+
+Using the built-in function `spatial::Kfn()`, the empirical $\mathbf{L}$-function for a point process can be computed. The empirical $\mathbf{L}$-functions for the three data sets can be seen in figure \@ref(fig:l-func). The $\mathbf{L}$-function for the pine trees looks to follow a straight line with slope 1. This is a strong indicator of a homogeneous Poisson process. 
+The biological cell data $\mathbf{L}$-function is equal to zero when $\tau$ is small. It grows quickly in the interval $\tau \in (0.1, 0.2)$ and approximately follows a slope of 1 for large distances. This indicates that the probability of finding two points with an intermediate distance of less than 0.1 is very small. 
+The redwood tree data has a $\mathbf{L}$-function that grows quickly for small values of $\tau$. This indicates a large probability of finding points that are close to each other.
+
+(ref:l-func) Empirical $\mathbf{L}$-functions for biological cell data, redwood tree data and pine tree data.
+
+```{r l-func, fig.show="hold", out.width="32%", fig.cap="(ref:l-func)", fig.asp = 1}
 
 cells_L <- Kfn(cells_data, 1)
 red_L <- Kfn(red_data, 1)
 pines_L <- Kfn(pines_data, 1)
 
-plotLFunc(cells_L, "cells")
-plotLFunc(red_L, "redwood")
-plotLFunc(pines_L, "pines")
+plotLFunc(cells_L, "Biological cells")
+plotLFunc(red_L, "Redwood trees")
+plotLFunc(pines_L, "Pine trees")
 ```
 
 
 ## c)
 
-```{r}
-testIfPois(data = cells_data, 
-           simulatePois = simulateHomoPois, 
+Monte Carlo simulation can be used to test whether the given data sets can be modelled as homogenuous Poisson processes. In a homogenuous Poisson process, the conditional location of all events when the number of events is known is distributed uniformly. Thus, for events in the area $\mathbf{D}$
+
+If the samples $\mathbf{X}_{D} = (\bm{x}_1, ..., \bm{x}_k)$ is iid Poisson with some constant intensity $\lambda$, then $[\bm{X}_D | k] \sim \text{Uniform}(\bm{D})$.
+
+<!-- I don't know how to write this!! -->
+
+(ref:mc-test) Empirical $\mathbf{L}$-functions for tree different data sets are displayed along with empirical $0.9$-prediction intervals of $\mathbf{L}$-functions generated from homogenuous Poisson processes conditioned on the event-count in the data sets.
+
+```{r mc-test, fig.show = "hold", out.width="32%", fig.asp=1, fig.cap = "(ref:mc-test)"}
+testIfPois(data = cells_data,
+           simulatePois = simulateHomoPois,
            args = list(n = length(cells_data$x), area = cells_data$area),
            title = "cells")
 
-testIfPois(red_data, 
-           simulatePois = simulateHomoPois, 
+testIfPois(red_data,
+           simulatePois = simulateHomoPois,
            args = list(n = length(red_data$x), area = red_data$area),
            title = "redwood" )
 
 testIfPois(pines_data,
-           simulatePois = simulateHomoPois, 
+           simulatePois = simulateHomoPois,
            args = list(n = length(pines_data$x), area = pines_data$area),
            title = "pines")
 
