@@ -6,11 +6,11 @@
 
 # evaluation of MCMC algorithm
 
-  phi_0 <- 999999
-  phi_1 <- 1
+  phi_0 <- 1000000
+  phi_1 <- 1000
   tau_0 <- 0.1
   k <- length(cells_data$x)
-  num_iter <- 10000
+  num_iter <- 2000
   area <- cells_data$area
   jumps <- 10
   
@@ -20,27 +20,61 @@
                phi_1 = phi_1,
                tau_0 = tau_0,
                k = k,
-               area = area)
-  
-  data <- doMCMC(acceptanceFunc = acceptanceRepulsive,
-                 num_iter = num_iter,
-                 jumps = jumps,
-                 args = args)
+               area = area,
+               acceptanceFunc = acceptanceRepulsive,
+               num_iter = num_iter,
+               jumps = jumps)
   
   
+  gg <- testIfPois(data = cells_data,
+           simulatePois = generateRepulsivePois,
+           args = args,
+           num_real = 100)
+  
+  data <- generateRepulsivePois(args)
+  
+  plotProcess(data)
   
   
-  testBurnIn(evalFunc = evaluateMeanMinDist,
-             acceptanceFunc = acceptanceRepulsive,
-             num_iter = num_iter,
-             jumps = jumps,
-             args = args,
-             num_test = 5)
+  num_test <- 10
+  gg_1 <- testBurnIn(evalFunc = evaluateMeanMinDist,
+                     args = args,
+                     num_test = num_test,
+                     title = "Mean min distance")
+  
+  gg_2 <- testBurnIn(evalFunc = evaluateMeanMaxDist,
+                     args = args,
+                     num_test = num_test,
+                     title = "Mean max distance")
+  
+  gg_3 <- testBurnIn(evalFunc = evaluateMaxDist,
+                     args = args,
+                     num_test = num_test,
+                     title = "Max distance")
+  
+  gg_4 <- testBurnIn(evalFunc = evaluateMinDist,
+                     args = args,
+                     num_test = num_test,
+                     title = "Min distance")
+  
+  grid.arrange(gg_1, gg_2, gg_3, gg_4)
+  
+  
+  
 
   
   # doMCMC <- function(acceptanceFunc, num_iter, jumps, args, events_mat){
 
-  plot_data <- data.frame(data[, , dim(data)[3]])
-  names(plot_data) <- c("x", "y")
-  plotProcess(plot_data)
+
+```
+
+
+
+```{r}
+
+gg <- testIfPois(data = cells_data,
+           simulatePois = generateRepulsivePois,
+           args = args,
+           num_real = 100)
+
 ```

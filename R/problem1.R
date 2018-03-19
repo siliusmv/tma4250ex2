@@ -38,10 +38,12 @@ plotLFunc <- function(data, title = NULL){
 
 testIfPois <- function(data, num_real = 100, alpha = .1, simulatePois, args, title = NULL){
 
-  area_size <- (data$area[2] - data$area[1]) * (data$area[4] - data$area[3])
-  n <- length(data$x)
-
-  lambda <- n / area_size
+  if(!is.null(data$area)){
+    area_size <- (data$area[2] - data$area[1]) *
+      (data$area[4] - data$area[3])
+  } else{
+    area_size <- 1
+  }
 
   all_data <- NULL
   all_data_mat <- NULL

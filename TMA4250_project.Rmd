@@ -12,6 +12,7 @@ output:
     number_sections: no
     includes:
       in_header: text/style.sty
+      
 ---
 
 ```{r setup, include=FALSE, cache = FALSE}

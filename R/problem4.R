@@ -1,18 +1,5 @@
 
 
-repulsiveMC <- function(args){
-
-  phi_0 <- args$phi_0
-  phi_1 <- args$phi_1
-  tau_0 <- args$tau_0
-  k <- args$k
-  num_iter <- args$num_iter
-  area <- args$area
-
-
-
-}
-
 phiFunc <- function(phi_0, phi_1, tau_0, tau){
 
   # if(tau > tau_0){
@@ -21,7 +8,7 @@ phiFunc <- function(phi_0, phi_1, tau_0, tau){
   #
   # return(phi_0)
 
-  nonpositive <- ifelse(test = tau <= 0,
+  nonpositive <- ifelse(test = (tau <= 0),
                     yes = TRUE,
                     no = FALSE)
 
@@ -38,13 +25,16 @@ phiFunc <- function(phi_0, phi_1, tau_0, tau){
 
 
 
-doMCMC <- function(acceptanceFunc, num_iter, jumps, args){
+repulsiveMC <- function(args){
 
   phi_0 <- args$phi_0
   phi_1 <- args$phi_1
   tau_0 <- args$tau_0
   k <- args$k
   area <- args$area
+  acceptanceFunc <- args$acceptanceFunc
+  num_iter <- args$num_iter
+  jumps <- args$jumps
 
   data <- array(0, c(k, 2, (num_iter / jumps) + 1))
 
@@ -90,13 +80,16 @@ doMCMC <- function(acceptanceFunc, num_iter, jumps, args){
 acceptanceRepulsive <- function(events_mat, new_coords, i, k, phi_0, phi_1, tau_0, phiFunc){
 
   old_coords <- events_mat[i, ]
-  new_sum <- 0
-  old_sum <- 0
 
   tau_new <- sqrt((new_coords[1] - events_mat[, 1])^2 +
                     (new_coords[2] - events_mat[, 2])^2)
+
   tau_old <- sqrt((old_coords[1] - events_mat[, 1])^2 +
                     (old_coords[2] - events_mat[, 2])^2)
+
+  # Remove point nr. i
+  tau_new <- tau_new[-i]
+  tau_old <- tau_old[-i]
 
 
   new_sum <- sum(phiFunc(phi_0, phi_1, tau_0, tau_new))
@@ -115,7 +108,7 @@ acceptanceRepulsive <- function(events_mat, new_coords, i, k, phi_0, phi_1, tau_
   # }
 
   # FEIL????
-  log_res <- new_sum - old_sum
+  log_res <- old_sum - new_sum
 
   if(log_res > 0){
     log_res <- 0
@@ -178,16 +171,13 @@ evaluateMeanMaxDist <- function(data){
 
 
 
-testBurnIn <- function(evalFunc, acceptanceFunc, num_iter, jumps, args, num_test){
+testBurnIn <- function(evalFunc, args, num_test, title = NULL){
 
   eval_mat <- NULL
 
   for(i in 1:num_test){
 
-    data <-  doMCMC(acceptanceFunc = acceptanceFunc,
-                    num_iter = num_iter,
-                    jumps = jumps,
-                    args = args)
+    data <-  repulsiveMC(args)
 
     eval_vec <- evalFunc(data)
 
@@ -202,7 +192,25 @@ testBurnIn <- function(evalFunc, acceptanceFunc, num_iter, jumps, args, num_test
 
   gg <- ggplot(data = eval_mat) +
     geom_line(aes(y = val, x = iter, col = run)) +
-    labs(x = "Sample nr.")
+    labs(x = "Sample nr.") +
+    scale_color_discrete(guide = FALSE)
+
+  if(!is.null(title)){
+    gg <- gg + labs(title = title)
+  }
 
   gg
+}
+
+
+generateRepulsivePois <- function(args){
+
+  all_data <- repulsiveMC(args)
+  final_step <- all_data[, , dim(all_data)[3]]
+
+  res <- list(x = final_step[, 1],
+              y = final_step[, 2],
+              area = args$area)
+
+  return(res)
 }
