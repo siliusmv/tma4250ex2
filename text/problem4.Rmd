@@ -1,14 +1,17 @@
+# Problem 4: Repulsive event spatial variables
 
+## a)
 
+(ref:repulsive) Empirical $\mathbf{L}$-function for the biological cell data along with empirical 0.9-confidence intervals for the $\mathbf{L}$-function. Thes are made from simulation of 100 Strauss event RF models with parameters AHAHJASHDSDHF.
+\todo{fill out figure caption}
 
-
-```{r}
+```{r repulsive, fig.cap = "(ref:repulsive)"}
 
 # evaluation of MCMC algorithm
 
-  phi_0 <- 1000000
-  phi_1 <- 1000
-  tau_0 <- 0.1
+  phi_0 <- 100
+  phi_1 <- 50
+  tau_0 <- 0.02
   k <- length(cells_data$x)
   num_iter <- 2000
   area <- cells_data$area
@@ -72,7 +75,7 @@
 
 ```{r}
 
-gg <- testIfPois(data = cells_data,
+testIfPois(data = cells_data,
            simulatePois = generateRepulsivePois,
            args = args,
            num_real = 100)
