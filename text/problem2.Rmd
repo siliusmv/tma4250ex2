@@ -6,7 +6,7 @@ pines_data <- ppinit("../data/pines.dat")
 
 ## a)
 
-We are given a $(300 \times 300)$ m$^2$ area containing a pine tree forest, and we discretise the area into a regular $(30 \times 30)$-grid $\mathbf{L}$, each unit having size 100 m$^2$. The unknown true number of trees located in each unit is given by $\bm{k} = \{k(\bm{x}) | \bm{x} \in \mathbf{L}\}$, and the probability of observing a pine tree in each grid unit is given by $\bm{\alpha} = \{\alpha(\bm{x}) | \bm{x} \in \mathbf{L}\}$ with $\alpha(\bm{x}) \in [0,1] \forall \bm{x} \in \mathbf{L}$, and is plotted in figure \@ref(fig:pineTreeObsProb). The number of pine trees observed in each grid unit is given by $\bm{d} = \{d(\bm{x}) | \bm{x} \in \mathbf{L}\}$, and these are displayed in figure \@ref(fig:pineTreeObs).
+We are given a $(300 \times 300)$ m$^2$ area containing a pine tree forest, and we discretise the area into a regular $(30 \times 30)$-grid $\mathbf{L}$, each unit having size 100 m$^2$. The unknown true number of trees located in each unit is given by $\bm{k} = \{k(\bm{x}) | \bm{x} \in \mathbf{L}\}$, and the probability of observing a pine tree in each grid unit is given by $\bm{\alpha} = \{\alpha(\bm{x}) | \bm{x} \in \mathbf{L}\}$ with $\alpha(\bm{x}) \in [0,1]$ $\forall \bm{x} \in \mathbf{L}$, and is plotted in figure \@ref(fig:pineTreeObsProb). The number of pine trees observed in each grid unit is given by $\bm{d} = \{d(\bm{x}) | \bm{x} \in \mathbf{L}\}$, and these are displayed in figure \@ref(fig:pineTreeObs).
 
 ```{r pineTreeObsProb, fig.cap = "The probability of observing a pine tree for each grid unit in L."}
 obsprob <- data.frame(read.table("../data/obsprob.txt", header = TRUE))
@@ -33,7 +33,7 @@ We make the assumption that the observations given the true number of pine trees
 [d_i | k_i] \sim p(d_i | k_i) = \binom{k_i}{d_i} \alpha_i^{d_i} (1 - \alpha_i)^{k_i - d_i}.
 \end{equation}
 
-As we have assumed independence between the grid units, the joint likelihood model is simply the product of the individual likelihoods over the whole grid $\mathbf{L}$, giving
+As we have assumed no correlation between observations in different grid units given $\bm{k}$, the joint likelihood model is simply the product of the individual likelihoods over the whole grid $\mathbf{L}$, giving
 
 \begin{equation}
 [\bm{d} | \bm{k}] \sim p(\bm{d} | \bm{k}) = \prod_{i=1}^{n} p(d_i | k_i) = \prod_{i=1}^{n} \binom{k_i}{d_i} \alpha_i^{d_i} (1 - \alpha_i)^{k_i - d_i},
@@ -56,23 +56,23 @@ We now assume that the distribution of pine trees is according to a stationary P
 The maximum likelihood estimate of $\lambda_k$ can be found through
 
 \begin{equation}
-\hat{\lambda}_k = \arg \max_{\lambda_k} \left(\prod_{i=1}^{n} \frac{(\alpha_i \lambda_k \Delta)^{d_i}}{d_i !} \exp{(-\alpha_i \lambda_k \Delta)}\right),
+\hat{\lambda}_k = \arg \max_{\lambda_k} \left(\prod_{i=1}^{n} \frac{(\alpha_i \pi_k)^{d_i}}{d_i !} \exp{(-\alpha_i \pi_k)}\right),
 \end{equation}
 
 and can be written explicitly as
 
 \begin{equation}
-\hat{\lambda}_k = \frac{1}{|\mathbf{L}} \frac{\sum_{i=1}^{n} d_i}{\sum_{i=1}^{n} \alpha_i},
+\hat{\lambda}_k = \frac{1}{|\mathbf{L}|} \frac{\sum_{i=1}^{n} d_i}{\sum_{i=1}^{n} \alpha_i},
 \end{equation}
 
-where $\mathbf{L}$ is the area of grid $\mathbf{L}$. By running the following `R` code, we get a numerical estimate of $\lambda_k$.
+where $|\mathbf{L}|$ is the area of grid $\mathbf{L}$. By running the following `R` code, we get a numerical estimate of $\lambda_k$.
 
-```{r}
+```{r echo = TRUE}
 lambda_hat <- (1/(300*300)) * sum(obspines$N_obs)/sum(obsprob$alpha)
 lambda_hat
 ```
 
-```{r}
+```{r echo = TRUE}
 u <- ceiling(runif(10, 0, 30)) * 10 - 5
 v <- ceiling(runif(10, 0, 30)) * 10 - 5
 N_simObs <- vector("numeric", 30*30)
@@ -95,5 +95,5 @@ gg
 
 ## d)
 
-The posterior discretised event-count model can be found by noting that $p(\bm{k} | \bm{d}) \propto p(\bm{d} | \bm{k}) p(\bm{k})$, where we know that $p(\bm{d} | \bm{k})$ is a product of binomial distribution, and $p(\bm{k})$ is a product of Poisson distributions, as argued in a) and b).
+The posterior discretised event-count model can be found by noting that $p(\bm{k} | \bm{d}) \propto p(\bm{d} | \bm{k}) p(\bm{k})$, where we know that $p(\bm{d} | \bm{k})$ is a product of binomial distributions, and $p(\bm{k})$ is a product of Poisson distributions, as argued in a) and b).
 
