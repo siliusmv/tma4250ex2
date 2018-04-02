@@ -1,8 +1,7 @@
 
 plotProcess <- function(data, title = NULL){
 
-  dat <- data.frame(data$x, data$y)
-  names(dat) <- c("x", "y")
+  dat <- tibble(x = data$x, y = data$y)
 
   gg <- ggplot(data = dat) +
     geom_point(aes(x = x, y = y))
@@ -22,8 +21,7 @@ plotProcess <- function(data, title = NULL){
 
 plotLFunc <- function(data, title = NULL){
 
-  dat <- data.frame(data$x, data$y)
-  names(dat) <- c("x", "y")
+  dat <- tibble(x = data$x, y = data$y)
 
   gg <- ggplot(data = dat) +
     geom_line(aes(x = x, y = y)) +
@@ -56,8 +54,7 @@ testIfPois <- function(data, num_real = 100, alpha = .1, simulatePois, args, tit
   }
 
   realL <- Kfn(data, area_size)
-  plot_data <- data.frame(cbind(realL$x, realL$y))
-  names(plot_data) <- c("x", "y")
+  plot_data <- tibble(x = realL$x, y = realL$y)
 
   var_vec <- apply(all_data_mat, 1, var)
   mean_vec <- apply(all_data_mat, 1, mean)
@@ -66,8 +63,7 @@ testIfPois <- function(data, num_real = 100, alpha = .1, simulatePois, args, tit
   lower <- mean_vec - z * sqrt(var_vec)
   upper <- mean_vec + z * sqrt(var_vec)
 
-  plot_data$lower <- lower
-  plot_data$upper <- upper
+  plot_data <- mutate(plot_data, lower = lower, upper = upper)
 
   gg <- ggplot(data = plot_data) +
     geom_line(aes(x = x, y = y)) +
@@ -95,3 +91,5 @@ simulateHomoPois <- function(args){
 
   return(res)
 }
+
+

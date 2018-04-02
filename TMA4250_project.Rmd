@@ -17,10 +17,8 @@ output:
 ```{r setup, include=FALSE, cache = FALSE}
 knitr::opts_chunk$set(echo = FALSE, cache = TRUE, autodep = TRUE, warning = FALSE, message = FALSE, error = FALSE, out.width = "70%", fig.align = "center")
 library(spatial)
-library(ggplot2)
-library(dplyr)
+library(tidyverse)
 library(viridis)
-library(bookdown)
 library(latex2exp)
 library(gridExtra)
 source("R/problem1.R")

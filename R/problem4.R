@@ -187,7 +187,7 @@ testBurnIn <- function(evalFunc, args, num_test, title = NULL){
 
   }
 
-  eval_mat <- data.frame(eval_mat)
+  eval_mat <- as_tibble(eval_mat)
   names(eval_mat) <- c("val", "iter", "run")
 
   gg <- ggplot(data = eval_mat) +
