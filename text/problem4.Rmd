@@ -2,10 +2,9 @@
 
 ## a)
 
-(ref:repulsive) Empirical $\mathbf{L}$-function for the biological cell data along with empirical 0.9-confidence intervals for the $\mathbf{L}$-function. Thes are made from simulation of 100 Strauss event RF models with parameters AHAHJASHDSDHF.
-\todo{fill out figure caption}
+The Strauss model is a model used
 
-```{r repulsive, fig.cap = "(ref:repulsive)"}
+```{r}
 
 # evaluation of MCMC algorithm
 
@@ -17,7 +16,23 @@
   area <- cells_data$area
   jumps <- 10
   
+  args <- list(phi_0 = phi_0,
+             phi_1 = phi_1,
+             tau_0 = tau_0,
+             k = k,
+             area = area,
+             acceptanceFunc = acceptanceRepulsive,
+             num_iter = num_iter,
+             jumps = jumps)
   
+  data <- generateRepulsivePois(args)
+  
+  plotProcess(data)
+  
+```
+
+
+```{r}
   
   args <- list(phi_0 = phi_0,
                phi_1 = phi_1,
@@ -27,16 +42,6 @@
                acceptanceFunc = acceptanceRepulsive,
                num_iter = num_iter,
                jumps = jumps)
-  
-  
-  gg <- testIfPois(data = cells_data,
-           simulatePois = generateRepulsivePois,
-           args = args,
-           num_real = 100)
-  
-  data <- generateRepulsivePois(args)
-  
-  plotProcess(data)
   
   
   num_test <- 10
@@ -63,17 +68,18 @@
   grid.arrange(gg_1, gg_2, gg_3, gg_4)
   
   
-  
-
-  
-  # doMCMC <- function(acceptanceFunc, num_iter, jumps, args, events_mat){
-
-
 ```
 
 
 
-```{r}
+(ref:repulsive-test) Empirical $\mathbf{L}$-function for the biological cell data along with empirical 0.9-confidence intervals for the $\mathbf{L}$-function. Thes are made from simulation of 100 Strauss event RF models with parameters AHAHJASHDSDHF.
+
+\todo[inline]{Fill out figure caption}
+
+
+```{r repulsive-test, fig.cap = "(ref:repulsive-test)"}
+
+  args$num_iter <- 700
 
 testIfPois(data = cells_data,
            simulatePois = generateRepulsivePois,
@@ -81,3 +87,7 @@ testIfPois(data = cells_data,
            num_real = 100)
 
 ```
+
+
+
+

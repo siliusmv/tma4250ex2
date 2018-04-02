@@ -67,12 +67,12 @@ and can be written explicitly as
 
 where $|\mathbf{L}|$ is the area of grid $\mathbf{L}$. By running the following `R` code, we get a numerical estimate of $\lambda_k$.
 
-```{r echo = TRUE}
+```{r }
 lambda_hat <- (1/(300*300)) * sum(obspines$N_obs)/sum(obsprob$alpha)
 lambda_hat
 ```
 
-```{r echo = TRUE}
+```{r }
 u <- ceiling(runif(10, 0, 30)) * 10 - 5
 v <- ceiling(runif(10, 0, 30)) * 10 - 5
 N_simObs <- vector("numeric", 30*30)

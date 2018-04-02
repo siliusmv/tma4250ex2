@@ -11,6 +11,8 @@ The pine trees looks to be very randomly distributed. There is some clustering, 
 
 
 ```{r}
+# Load data
+
 cells_data <- ppinit("../data/cells.dat")
 red_data <- ppinit("../data/redwood.dat")
 pines_data <- ppinit("../data/pines.dat")
@@ -19,6 +21,7 @@ pines_data <- ppinit("../data/pines.dat")
 (ref:processes) Point patterns displaying the biological cell data, redwood tree data and pine tree data of three different $1 \times 1$ grids.
 
 ```{r processes, fig.show="hold", out.width="32%", fig.asp=1, fig.cap = "(ref:processes)"}
+# Display data
 
 plotProcess(cells_data, "Biological cells")
 plotProcess(red_data, "Redwood trees")
@@ -41,10 +44,12 @@ The redwood tree data has a $\mathbf{L}$-function that grows quickly for small v
 
 ```{r l-func, fig.show="hold", out.width="32%", fig.cap="(ref:l-func)", fig.asp = 1}
 
+# Calculate L-functions for all data
 cells_L <- Kfn(cells_data, 1)
 red_L <- Kfn(red_data, 1)
 pines_L <- Kfn(pines_data, 1)
 
+# Display L-functions
 plotLFunc(cells_L, "Biological cells")
 plotLFunc(red_L, "Redwood trees")
 plotLFunc(pines_L, "Pine trees")
@@ -62,17 +67,21 @@ If the samples $\mathbf{X}_{D} = (\bm{x}_1, ..., \bm{x}_k)$ is iid Poisson with 
 (ref:mc-test) Empirical $\mathbf{L}$-functions for tree different data sets are displayed along with empirical $0.9$-prediction intervals of $\mathbf{L}$-functions generated from homogenuous Poisson processes conditioned on the event-count in the data sets.
 
 ```{r mc-test, fig.show = "hold", out.width="32%", fig.asp=1, fig.cap = "(ref:mc-test)"}
+
+# Simulate homogenuous poisson processes and display L-function intervals
+# along with those from the given data
+
 testIfPois(data = cells_data,
            simulatePois = simulateHomoPois,
            args = list(n = length(cells_data$x), area = cells_data$area),
            title = "cells")
 
-testIfPois(red_data,
+testIfPois(data = red_data,
            simulatePois = simulateHomoPois,
            args = list(n = length(red_data$x), area = red_data$area),
            title = "redwood" )
 
-testIfPois(pines_data,
+testIfPois(data = pines_data,
            simulatePois = simulateHomoPois,
            args = list(n = length(pines_data$x), area = pines_data$area),
            title = "pines")

@@ -44,3 +44,11 @@ knitr::read_chunk("R/problem4.R")
 
 ```{r child = "text/problem4.Rmd"}
 ```
+
+
+# Appendix
+
+All our code can be found in the print-out below:
+
+```{r, ref.label = knitr::all_labels()[-1], echo = TRUE, eval = FALSE, cache = FALSE}
+```
