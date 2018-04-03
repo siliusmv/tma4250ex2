@@ -2,12 +2,14 @@
 
 ## a)
 
+\todo[inline]{think about whether you talk about things as processes or random fields throughout the text.}
+
 The point patterns from the three different data sets can be seen in figure \@ref(fig:processes). The biological cell data is very evenly spread out. There is absolutely no clustering. This indicates that there is some natural repulsion happening. The cell data might depend on the amount of minerals and moisture of the soil. If to much biological cells get close to each other, they will compete for resources until all but one of them dies.
 
 The redwood locations are highly clustered. This might happen because the redwood trees work together to fend of other tree types. It can also be expected that the trees will be close if the seeds from one tree is unable to travel greater distances.
 
 The pine trees looks to be very randomly distributed. There is some clustering, and some areas without any growth. 
-<!-- Why does this happen??  -->
+\todo[inline]{Relate this patternto a real process in nature}
 
 
 ```{r}
@@ -18,7 +20,7 @@ red_data <- ppinit("../data/redwood.dat")
 pines_data <- ppinit("../data/pines.dat")
 ```
 
-(ref:processes) Point patterns displaying the biological cell data, redwood tree data and pine tree data of three different $1 \times 1$ grids.
+(ref:processes) Point patterns displaying the biological cell data, redwood tree data and pine tree data of three different grids inside an $1 \times 1$ area.
 
 ```{r processes, fig.show="hold", out.width="32%", fig.asp=1, fig.cap = "(ref:processes)"}
 # Display data
@@ -34,13 +36,31 @@ plotProcess(pines_data, "Pine trees")
 
 ## b)
 
-\todo{The last part of the task has not been done. You need to specify the L-function and display the theoretical function along with the empirical ones.}
+The L-function is a descriptive statistic for event RF that measures the clustering or repulsive effects in a point process. In two dimensions the function becomes
 
-Using the built-in function `spatial::Kfn()`, the empirical $\mathbf{L}$-function for a point process can be computed. The empirical $\mathbf{L}$-functions for the three data sets can be seen in figure \@ref(fig:l-func). The $\mathbf{L}$-function for the pine trees looks to follow a straight line with slope 1. This is a strong indicator of a homogeneous Poisson process. 
-The biological cell data $\mathbf{L}$-function is equal to zero when $\tau$ is small. It grows quickly in the interval $\tau \in (0.1, 0.2)$ and approximately follows a slope of 1 for large distances. This indicates that the probability of finding two points with an intermediate distance of less than 0.1 is very small. 
-The redwood tree data has a $\mathbf{L}$-function that grows quickly for small values of $\tau$. This indicates a large probability of finding points that are close to each other.
+\begin{equation}
+\text{L}_2(t) = \left[\frac{E[k_{B_{\bm{x}_0}(t)} - 1]}{\lambda_k \pi}\right]^{1 / 2}.
+\end{equation}
 
-(ref:l-func) Empirical $\mathbf{L}$-functions for biological cell data, redwood tree data and pine tree data.
+$k_{B_{\bm{x}_0}(t)}$ is defined as the number of events inside the ball of radius $t$ centered at $\bm{x}_0$. 
+
+The empirical L-function of a point process can be calculated using
+
+\begin{equation}
+\hat{\text{L}}_2(t) = \left[\frac{\sum_{i \neq j}^n I(d_{ij} < t) / n}{\hat{\lambda}_k \pi}\right]^{1 / 2}.
+\end{equation}
+
+Here, $d_{ij}$ denotes the distance between the points $\bm{x}_i$ and $\bm{x}_j$, with $i,j = 1,...,n$. The estimator $\hat{\lambda}_k$ is simply the number of events $n$ divided by the area of the region containing the point process.\todo{this is not very well written.}
+
+\todo[inline]{The last part of the task has not been done. You need to specify the L-function and display the theoretical function along with the empirical ones.}
+
+Due to properties of the Palm distribution\todo{I don't understand how I am supposed to explain this. I really don't understand it myself...} it can be found that for a homogenuous Poisson process, $E[k_{B_{\bm{x}_0}(t)} - 1] = \lambda_k \pi t^2$. Thus, for a homogenuous Poisson process one finds $\text{L}_2(t) = t$. \todo[inline]{do we also need to express the theoretical J-function?}
+
+Using the built-in function `spatial::Kfn()`, the empirical L-function for a point process can be computed. The empirical L-functions for the three data sets can be seen in figure \@ref(fig:l-func). The L-function for the pine trees looks to follow a straight line with slope 1. This is a strong indicator of a homogeneous Poisson process. 
+The biological cell data L-function is equal to zero when $\tau$ is small. It grows quickly in the interval $\tau \in (0.1, 0.2)$ and approximately follows a slope of 1 for large distances. This indicates that the probability of finding two points with an intermediate distance of less than 0.1 is very small i.e. the process might be described well with a repulsive model. 
+The redwood tree data has an L-function that grows quickly for small values of $\tau$. This indicates a large probability of finding points that are close to each other. Therefore, the process might be modeled well using a clustered model.
+
+(ref:l-func) Empirical L-functions for biological cell data, redwood tree data and pine tree data.
 
 ```{r l-func, fig.show="hold", out.width="32%", fig.cap="(ref:l-func)", fig.asp = 1}
 
@@ -58,13 +78,13 @@ plotLFunc(pines_L, "Pine trees")
 
 ## c)
 
-Monte Carlo simulation can be used to test whether the given data sets can be modelled as homogenuous Poisson processes. In a homogenuous Poisson process, the conditional location of all events when the number of events is known is distributed uniformly. Thus, for events in the area $\mathbf{D}$
+Monte Carlo simulation can be used to test whether the given data sets can be modelled as homogenuous Poisson processes. In a homogenuous Poisson process, the conditional location of all events when the number of events is known is distributed uniformly in space.\todo{need an elegent way of writing that all the points will be uniformly distributed within $\mathbf{D}$.} We can simulate the location of $n$ events from a homogenuous Poisson process inside an area $\mathbf{D}$ by distributing the events uniformly in $\mathbf{D}$. 
 
-If the samples $\mathbf{X}_{D} = (\bm{x}_1, ..., \bm{x}_k)$ is iid Poisson with some constant intensity $\lambda$, then $[\bm{X}_D | k] \sim \text{Uniform}(\bm{D})$.
+We test whether the aforementioned point processes can be modelled as homogenuous Poisson processes. This is done by simulating 100 realisations of homogenuous Poisson processes with the same number of events in a domain of the same size. Using these realisations, 0.9-confidence intervals for the L-functions can be calculated an displayed along with the empirical L-function of the original point processes. The results can be seen in figure \@ref(fig:mc-test). It can be seen that the Pine tree data is well within the confidence interval. This indicates that a homogenuous Poisson RF is a fitting model for explaining the point process. The empirical L-functions for the other two point processes are well outside of the given conficence intervals for small distances. The Poisson RF is not able to explain this behaviour and should not be used when modeling the two point processes.
 
-<!-- I don't know how to write this!! -->
+<!-- If the samples $\mathbf{X}_{D} = (\bm{x}_1, ..., \bm{x}_k)$ is iid Poisson with some constant intensity $\lambda$, then $[\bm{X}_D | k] \sim \text{Uniform}(\bm{D})$. -->
 
-(ref:mc-test) Empirical $\mathbf{L}$-functions for tree different data sets are displayed along with empirical $0.9$-prediction intervals of $\mathbf{L}$-functions generated from homogenuous Poisson processes conditioned on the event-count in the data sets.
+(ref:mc-test) Empirical L-functions for tree different point processes are displayed along with empirical $0.9$-confidence intervals for the L-function generated from homogenuous Poisson processes conditioned on the event-count in the three point processes.
 
 ```{r mc-test, fig.show = "hold", out.width="32%", fig.asp=1, fig.cap = "(ref:mc-test)"}
 
@@ -74,17 +94,17 @@ If the samples $\mathbf{X}_{D} = (\bm{x}_1, ..., \bm{x}_k)$ is iid Poisson with 
 testIfPois(data = cells_data,
            simulatePois = simulateHomoPois,
            args = list(n = length(cells_data$x), area = cells_data$area),
-           title = "cells")
+           title = "Biological cell data")
 
 testIfPois(data = red_data,
            simulatePois = simulateHomoPois,
            args = list(n = length(red_data$x), area = red_data$area),
-           title = "redwood" )
+           title = "Redwood tree data" )
 
 testIfPois(data = pines_data,
            simulatePois = simulateHomoPois,
            args = list(n = length(pines_data$x), area = pines_data$area),
-           title = "pines")
+           title = "Pine tree data")
 
 
 ```
