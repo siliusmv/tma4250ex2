@@ -3,11 +3,12 @@ plotProcess <- function(data, title = NULL, jitter = FALSE){
 
   dat <- tibble(x = data$x, y = data$y)
 
-  gg <- ggplot(data = dat, aes(x = x, y = y)) +
-    geom_point()
+  gg <- ggplot(data = dat, aes(x = x, y = y))
 
   if(jitter){
     gg <- gg + geom_jitter(width = 0.03, height = 0.03)
+  } else{
+    gg <- gg + geom_point()
   }
 
   if(!is.null(data$area)){
