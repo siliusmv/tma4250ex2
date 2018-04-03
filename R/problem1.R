@@ -1,10 +1,14 @@
 
-plotProcess <- function(data, title = NULL){
+plotProcess <- function(data, title = NULL, jitter = FALSE){
 
   dat <- tibble(x = data$x, y = data$y)
 
-  gg <- ggplot(data = dat) +
-    geom_point(aes(x = x, y = y), position = "jitter")
+  gg <- ggplot(data = dat, aes(x = x, y = y)) +
+    geom_point()
+
+  if(jitter){
+    gg <- gg + geom_jitter(width = 0.03, height = 0.03)
+  }
 
   if(!is.null(data$area)){
     gg <- gg +

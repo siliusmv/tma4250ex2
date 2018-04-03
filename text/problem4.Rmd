@@ -64,7 +64,7 @@ After studying of figure \@ref(fig:burn-in) it can be assumed that any Markov ch
 (ref:repulsive-test) The left figure shows an example of a simulated Strauss model with parameters $\phi_0 = 100$, $\phi_1 = 50$ and $\tau_0 = 0.02$ . The right figure displays the empirical L-function for the biological cell data along with 0.9-confidence intervals for the L-function. These are made from simulation of 100 Strauss event RF models with the same parameters.
 
 
-```{r repulsive-test, fig.cap = "(ref:repulsive-test)"}
+```{r repulsive-test, fig.cap = "(ref:repulsive-test)", fig.show = "hold", out.width = "45%"}
 
 
 # evaluation of MCMC algorithm
@@ -73,12 +73,13 @@ args$num_iter <- 700
 
 data <- generateRepulsivePois(args)
 
-plotProcess(data)
+plotProcess(data, title = "Biological cells")
 
 testIfPois(data = cells_data,
            simulatePois = generateRepulsivePois,
            args = args,
-           num_real = 100)
+           num_real = 100,
+           title = "Biological cells")
 
 ```
 

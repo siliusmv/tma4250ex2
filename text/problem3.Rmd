@@ -36,13 +36,15 @@ cluster_args <- list(lambda_m = mothers, lambda_c = children, sigma = sigma, are
 
 data <- clusterMC(cluster_args)
 
-plotProcess(data)
+plotProcess(data = data,
+            jitter = TRUE,
+            title = "Redwood trees")
 
 
 testIfPois(data = red_data,
            simulatePois = clusterMC,
            args = cluster_args,
-           title = "Redwood tree data")
+           title = "Redwood trees")
 
 ```
 
