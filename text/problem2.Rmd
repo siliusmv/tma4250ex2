@@ -75,7 +75,7 @@ lambda_hat
 ```{r }
 u <- ceiling(runif(10, 0, 30)) * 10 - 5
 v <- ceiling(runif(10, 0, 30)) * 10 - 5
-N_simObs <- vector("numeric", 30*30)
+N_simObs <- vector("integer", 30*30)
 simObs <- obspines
 for (i in 1:10) {
   for (j in 1:(30*30)) {
@@ -86,8 +86,8 @@ for (i in 1:10) {
 }
 simObs$N_obs <- N_simObs
 gg <- ggplot(data=simObs, aes(x, y)) +
-  geom_raster(aes(fill = simObs$N_obs)) +
-  scale_fill_viridis() +
+  geom_tile(aes(fill = simObs$N_obs)) +
+  scale_fill_viridis(breaks = 0:10, labels = 0:10) +
   labs(title = "Simulation of number of pine trees")
 gg
 ```

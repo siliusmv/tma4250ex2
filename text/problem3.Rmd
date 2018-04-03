@@ -20,11 +20,11 @@ The pdf in \eqref{eq:mother-child} are divided into three parts. The first facto
 
 The Neumann-Scott event RF model in not analytically tractable, but realisations are simple to generate. \todo{this is copied from the compendium. Is that okay?} First, the number of mother-locations is generated and the locations are distributed uniformly on $\mathbf{D}$. Then, for each mother location, the number of child-events are generated, and the child-events are distributed according to their intensity pdf's. At last, all child-events outside $\mathbf{D}$ are removed.
 
-By studying the redwood tree data in figure \@ref(fig:processes), we try to fit the Neumann-Scott model using the parameters $\lambda_M = 12$, $\lambda_c = 5$, $\sigma_c^2 = 0.05^2$. 100 realisations of the model is simulated, and empirical 0.9-confidence intervals for the $\mathbf{L}$-function is displayed along with the empirical $\mathbf{L}$-function for the redwood tree data. The result can be seen in figure \@ref(fig:mother-child).
+By studying the redwood tree data in figure \@ref(fig:processes), we try to fit the Neumann-Scott model using the parameters $\lambda_M = 12$, $\lambda_c = 5$, $\sigma_c^2 = 0.05^2$. 100 realisations of the model is simulated, and 0.9-confidence intervals for the L-function is displayed along with the empirical L-function for the redwood tree data. The result can be seen in figure \@ref(fig:mother-child).
 
-(ref:mother-child) Empirical $\mathbf{L}$-function for the redwood data along with empirical 0.9-confidence intervals for the $\mathbf{L}$-function. Thes are made from simulation of 100 Neumann-Scott event RF models with parameters $\lambda_M = 12$, $\lambda_c = 5$, $\sigma_c^2 = 0.05^2$.
+(ref:mother-child) The left figure shows an example of a simulated Neumann-Scott model with parameters $\lambda_M = 12$, $\lambda_c = 5$, $\sigma_c^2 = 0.05^2$. The right figure displays the empirical L-function for the redwood data along with 0.9-confidence intervals for the L-function. These are made from simulation of 100 Neumann-Scott event RF models with the same parameters.
 
-```{r mother-child, fig.cap = "(ref:mother-child)"}
+```{r mother-child, fig.cap = "(ref:mother-child)", fig.show="hold", out.width="45%"}
 
 mothers <- 12
 children <- 5
@@ -33,9 +33,17 @@ area <- c(0, 1, 0, 1)
 
 cluster_args <- list(lambda_m = mothers, lambda_c = children, sigma = sigma, area = area)
 
+
+data <- clusterMC(cluster_args)
+
+plotProcess(data)
+
+
 testIfPois(data = red_data,
            simulatePois = clusterMC,
            args = cluster_args,
            title = "Redwood tree data")
 
 ```
+
+The empirical L-function for the redwood point process fits well within the confidence intervals from the Neumann-Scott model. This indicates that the data can be explained using such a model.

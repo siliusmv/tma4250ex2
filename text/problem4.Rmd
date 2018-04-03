@@ -2,21 +2,26 @@
 
 ## a)
 
-The Strauss model is a model used
+The Strauss model is a model used \todo{finish writing here}
 
-```{r}
 
-# evaluation of MCMC algorithm
 
-  phi_0 <- 100
-  phi_1 <- 50
-  tau_0 <- 0.02
-  k <- length(cells_data$x)
-  num_iter <- 2000
-  area <- cells_data$area
-  jumps <- 10
-  
-  args <- list(phi_0 = phi_0,
+To test whether the simulated Markov chain has reached convergence, one can generate and display several Markov chains with different initial values to see when the initial state has been forgotten. The results of this can be seen in figure \@ref(fig:burn-in).
+
+
+(ref:burn-in) Four different functions for evaluating convergence of the Markov chain used for simulating the Strauss model. One sample is drawn for each 10. iteration of the Markov chain.
+
+```{r burn-in, fig.cap = "(ref:burn-in)"}
+
+phi_0 <- 100
+phi_1 <- 50
+tau_0 <- 0.02
+k <- length(cells_data$x)
+num_iter <- 2000
+area <- cells_data$area
+jumps <- 10
+
+args <- list(phi_0 = phi_0,
              phi_1 = phi_1,
              tau_0 = tau_0,
              k = k,
@@ -24,62 +29,51 @@ The Strauss model is a model used
              acceptanceFunc = acceptanceRepulsive,
              num_iter = num_iter,
              jumps = jumps)
-  
-  data <- generateRepulsivePois(args)
-  
-  plotProcess(data)
-  
-```
 
 
-```{r}
-  
-  args <- list(phi_0 = phi_0,
-               phi_1 = phi_1,
-               tau_0 = tau_0,
-               k = k,
-               area = area,
-               acceptanceFunc = acceptanceRepulsive,
-               num_iter = num_iter,
-               jumps = jumps)
-  
-  
-  num_test <- 10
-  gg_1 <- testBurnIn(evalFunc = evaluateMeanMinDist,
-                     args = args,
-                     num_test = num_test,
-                     title = "Mean min distance")
-  
-  gg_2 <- testBurnIn(evalFunc = evaluateMeanMaxDist,
-                     args = args,
-                     num_test = num_test,
-                     title = "Mean max distance")
-  
-  gg_3 <- testBurnIn(evalFunc = evaluateMaxDist,
-                     args = args,
-                     num_test = num_test,
-                     title = "Max distance")
-  
-  gg_4 <- testBurnIn(evalFunc = evaluateMinDist,
-                     args = args,
-                     num_test = num_test,
-                     title = "Min distance")
-  
-  grid.arrange(gg_1, gg_2, gg_3, gg_4)
+num_test <- 10
+gg_1 <- testBurnIn(evalFunc = evaluateMeanMinDist,
+                   args = args,
+                   num_test = num_test,
+                   title = "Mean min distance")
+
+gg_2 <- testBurnIn(evalFunc = evaluateMeanMaxDist,
+                   args = args,
+                   num_test = num_test,
+                   title = "Mean max distance")
+
+gg_3 <- testBurnIn(evalFunc = evaluateMaxDist,
+                   args = args,
+                   num_test = num_test,
+                   title = "Max distance")
+
+gg_4 <- testBurnIn(evalFunc = evaluateMinDist,
+                   args = args,
+                   num_test = num_test,
+                   title = "Min distance")
+
+grid.arrange(gg_1, gg_2, gg_3, gg_4)
   
   
 ```
 
+After studying of figure \@ref(fig:burn-in) it can be assumed that any Markov chain has converged after 700 iterations for the given set of parameters. Now, it is possible to test the Strauss model. 100 realisations of the model is simulated, and 0.9-confidence intervals for the L-function is displayed along with the empirical L-function for the redwood tree data. The result can be seen in figure \@ref(fig:mother-child).
 
 
-(ref:repulsive-test) Empirical $\mathbf{L}$-function for the biological cell data along with empirical 0.9-confidence intervals for the $\mathbf{L}$-function. Thes are made from simulation of 100 Strauss event RF models with parameters AHAHJASHDSDHF.
 
-\todo[inline]{Fill out figure caption}
+(ref:repulsive-test) The left figure shows an example of a simulated Strauss model with parameters $\phi_0 = 100$, $\phi_1 = 50$ and $\tau_0 = 0.02$ . The right figure displays the empirical L-function for the biological cell data along with 0.9-confidence intervals for the L-function. These are made from simulation of 100 Strauss event RF models with the same parameters.
 
 
 ```{r repulsive-test, fig.cap = "(ref:repulsive-test)"}
 
-  args$num_iter <- 700
+
+# evaluation of MCMC algorithm
+
+args$num_iter <- 700
+
+data <- generateRepulsivePois(args)
+
+plotProcess(data)
 
 testIfPois(data = cells_data,
            simulatePois = generateRepulsivePois,
@@ -90,4 +84,4 @@ testIfPois(data = cells_data,
 
 
 
-
+\todo[inline]{discuss the results}

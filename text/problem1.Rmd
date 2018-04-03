@@ -57,8 +57,8 @@ Here, $d_{ij}$ denotes the distance between the points $\bm{x}_i$ and $\bm{x}_j$
 Due to properties of the Palm distribution\todo{I don't understand how I am supposed to explain this. I really don't understand it myself...} it can be found that for a homogenuous Poisson process, $E[k_{B_{\bm{x}_0}(t)} - 1] = \lambda_k \pi t^2$. Thus, for a homogenuous Poisson process one finds $\text{L}_2(t) = t$. \todo[inline]{do we also need to express the theoretical J-function?}
 
 Using the built-in function `spatial::Kfn()`, the empirical L-function for a point process can be computed. The empirical L-functions for the three data sets can be seen in figure \@ref(fig:l-func). The L-function for the pine trees looks to follow a straight line with slope 1. This is a strong indicator of a homogeneous Poisson process. 
-The biological cell data L-function is equal to zero when $\tau$ is small. It grows quickly in the interval $\tau \in (0.1, 0.2)$ and approximately follows a slope of 1 for large distances. This indicates that the probability of finding two points with an intermediate distance of less than 0.1 is very small i.e. the process might be described well with a repulsive model. 
-The redwood tree data has an L-function that grows quickly for small values of $\tau$. This indicates a large probability of finding points that are close to each other. Therefore, the process might be modeled well using a clustered model.
+The biological cell data L-function is equal to zero when $t$ is small. It grows quickly in the interval $t \in (0.1, 0.2)$ and approximately follows a slope of 1 for large distances. This indicates that the probability of finding two points with an intermediate distance of less than 0.1 is very small i.e. the process might be described well with a repulsive model. 
+The redwood tree data has an L-function that grows quickly for small values of $t$. This indicates a large probability of finding points that are close to each other. Therefore, the process might be modeled well using a clustered event model.
 
 (ref:l-func) Empirical L-functions for biological cell data, redwood tree data and pine tree data.
 
@@ -94,17 +94,17 @@ We test whether the aforementioned point processes can be modelled as homogenuou
 testIfPois(data = cells_data,
            simulatePois = simulateHomoPois,
            args = list(n = length(cells_data$x), area = cells_data$area),
-           title = "Biological cell data")
+           title = "Biological cells")
 
 testIfPois(data = red_data,
            simulatePois = simulateHomoPois,
            args = list(n = length(red_data$x), area = red_data$area),
-           title = "Redwood tree data" )
+           title = "Redwood trees" )
 
 testIfPois(data = pines_data,
            simulatePois = simulateHomoPois,
            args = list(n = length(pines_data$x), area = pines_data$area),
-           title = "Pine tree data")
+           title = "Pine trees")
 
 
 ```

@@ -4,7 +4,7 @@ plotProcess <- function(data, title = NULL){
   dat <- tibble(x = data$x, y = data$y)
 
   gg <- ggplot(data = dat) +
-    geom_point(aes(x = x, y = y))
+    geom_point(aes(x = x, y = y), position = "jitter")
 
   if(!is.null(data$area)){
     gg <- gg +
