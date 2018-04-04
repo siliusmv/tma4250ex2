@@ -1,4 +1,4 @@
-# Problem 1: Analysis of Point Patterns
+\section{Problem 1: Analysis of Point Patterns}
 
 ## a)
 

@@ -1,4 +1,4 @@
-# Problem 4: Repulsive event spatial variables
+\section{Problem 4: Repulsive event spatial variables}
 
 ## a)
 

@@ -44,7 +44,7 @@ knitr::read_chunk("R/problem4.R")
 ```
 
 
-# Appendix
+\section{Appendix}
 
 All our code can be found in the print-out below:
 
