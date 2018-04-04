@@ -6,7 +6,7 @@ The Strauss model is a model used \todo{finish writing here}
 
 
 
-To test whether the simulated Markov chain has reached convergence, one can generate and display several Markov chains with different initial values to see when the initial state has been forgotten. The results of this can be seen in figure \@ref(fig:burn-in).
+To test whether the simulated Markov chain has reached convergence, one can generate and display several Markov chains with different initial values to see when the initial state has been forgotten. First, we make a guess of the parameters needed for simulating the biological cell data. Then we test the convergence of the algorithm using these values. The results of this can be seen in figure \@ref(fig:burn-in).
 
 
 (ref:burn-in) Four different functions for evaluating convergence of the Markov chain used for simulating the Strauss model. One sample is drawn for each 10. iteration of the Markov chain.
@@ -32,6 +32,7 @@ args <- list(phi_0 = phi_0,
 
 
 num_test <- 10
+
 gg_1 <- testBurnIn(evalFunc = evaluateMeanMinDist,
                    args = args,
                    num_test = num_test,
@@ -57,7 +58,7 @@ grid.arrange(gg_1, gg_2, gg_3, gg_4)
   
 ```
 
-After studying of figure \@ref(fig:burn-in) it can be assumed that any Markov chain has converged after 700 iterations for the given set of parameters. Now, it is possible to test the Strauss model. 100 realisations of the model is simulated, and 0.9-confidence intervals for the L-function is displayed along with the empirical L-function for the redwood tree data. The result can be seen in figure \@ref(fig:mother-child).
+After some studying of figure \@ref(fig:burn-in) we assumed that any Markov chain has reached convergence after 700 iterations for the given set of parameters. Now, it is possible to test the Strauss model. 100 realisations of the model is simulated, and 0.9-confidence intervals for the L-function is displayed along with the empirical L-function for the redwood tree data. The result can be seen in figure \@ref(fig:repulsive-test).
 
 
 
@@ -83,6 +84,6 @@ testIfPois(data = cells_data,
 
 ```
 
+We see that the Strauss model with the given parameters capture the repulsion of the cell data very well. For larger values of t, the confidence-interval obtains a lower value of L$(T)$ than that of the biological cell data. This is not the most important area of for simulation, though. The relative size of the error is not too large, either. It can also be seen that the simulation in figure \@ref(fig:repulsive-test) is similar to the point process in figure \@ref(fig:processes). We can therefore conclude that the Strauss model is good enough for modeling our given data set.
 
-
-\todo[inline]{discuss the results}
+\todo[inline]{Badly written conclusion.}

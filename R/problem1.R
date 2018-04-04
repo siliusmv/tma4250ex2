@@ -24,15 +24,21 @@ plotProcess <- function(data, title = NULL, jitter = FALSE){
   return(gg)
 }
 
-plotLFunc <- function(data, title = NULL){
+
+plotLFunc <- function(data, title = NULL, add_line = TRUE){
 
   dat <- tibble(x = data$x, y = data$y)
 
   gg <- ggplot(data = dat) +
     geom_line(aes(x = x, y = y)) +
-    labs(x = TeX("$\\tau$"), y = TeX("$\\mathbf{L}$"))
+    labs(x = "t", y = "L")
   if(!is.null(title)){
     gg <- gg + labs(title = title)
+  }
+  if(add_line){
+    line_x <- ggplot_build(gg)$data[[1]]$x
+    gg <- gg +
+      geom_line(aes(x = line_x, y = line_x), linetype = "dashed")
   }
 
   return(gg)
@@ -73,7 +79,8 @@ testIfPois <- function(data, num_real = 100, alpha = .1, simulatePois, args, tit
   gg <- ggplot(data = plot_data) +
     geom_line(aes(x = x, y = y)) +
     geom_line(aes(x = x, y = upper), linetype = "dashed") +
-    geom_line(aes(x = x, y = lower), linetype = "dashed")
+    geom_line(aes(x = x, y = lower), linetype = "dashed") +
+    labs(x = "t", y = "L")
   if(!is.null(title)){
     gg <- gg + labs(title = title)
   }

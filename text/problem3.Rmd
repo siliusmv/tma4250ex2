@@ -3,7 +3,7 @@
 ## a)
 
 The Neumann-Scott cluster model is a model for describing a clustered event RF.
-Mother-locations are distributed according to a homogenuous Poisson process with intensity $\lambda_M$ inside an area $\mathbf{D}$. Centered at each mother-location, a set of child-events are independently distributed with count pdf $p(k^c)$ and intensity pdf $p(\bm{x} | \bm{x}_j^M)$, where $\bm{x}_j^M$ is mother-location number $j$. For this model, the count pdf $p(k^c)$ is a Poisson distribution with intensity $\lambda_c$, and the intensity $p(\bm{x} | \bm{x}_j^M)$ is a normal distribution centered at $\bm{x}_j^M$ with covariance matrix $\sigma_c^2 \mathbf{I}$. All children-events that are located outside $\mathbf{D}$ must be removed.
+Mother-locations are distributed according to a homogenuous Poisson process with intensity $\lambda_M$ inside an area $\mathbf{D}$. Centered at each mother-location, a set of child-events are independently distributed with count pdf $p(k^c)$ and intensity pdf $p(\bm{x} | \bm{x}_j^M)$, where $\bm{x}_j^M$ is mother-location number $j$. For the chosen version of the model, the count pdf $p(k^c)$ is a Poisson distribution with intensity $\lambda_c$, and the intensity $p(\bm{x} | \bm{x}_j^M)$ is a normal distribution centered at $\bm{x}_j^M$ with covariance matrix $\sigma_c^2 \mathbf{I}$. All children-events that are located outside $\mathbf{D}$ must be removed.
 Only the children-events are counted as events in the resulting model.
 
 This gives the pdf 
@@ -16,7 +16,7 @@ This gives the pdf
 \end{split}
 \end{equation}
 
-The pdf in \eqref{eq:mother-child} are divided into three parts. The first factor is 0 when a child-event is outside $\mathbf{D}$ and \todo{finish this!}
+The pdf in \eqref{eq:mother-child} are divided into three parts. The first factor explains the probability of the location of a child-event location given its mother-location. It is equal zero when a child-event is outside $\mathbf{D}$. The second factor explains the probability of $k_{Dj}^c$ child-events happening inside $\mathbf{D}$ given that the realisation from the count pdf $p(k^c)$ is $k_j^c$. The last factor is the pdf for the number and placement of the mother-locations.
 
 The Neumann-Scott event RF model in not analytically tractable, but realisations are simple to generate. \todo{this is copied from the compendium. Is that okay?} First, the number of mother-locations is generated and the locations are distributed uniformly on $\mathbf{D}$. Then, for each mother location, the number of child-events are generated, and the child-events are distributed according to their intensity pdf's. At last, all child-events outside $\mathbf{D}$ are removed.
 

@@ -60,7 +60,7 @@ Using the built-in function `spatial::Kfn()`, the empirical L-function for a poi
 The biological cell data L-function is equal to zero when $t$ is small. It grows quickly in the interval $t \in (0.1, 0.2)$ and approximately follows a slope of 1 for large distances. This indicates that the probability of finding two points with an intermediate distance of less than 0.1 is very small i.e. the process might be described well with a repulsive model. 
 The redwood tree data has an L-function that grows quickly for small values of $t$. This indicates a large probability of finding points that are close to each other. Therefore, the process might be modeled well using a clustered event model.
 
-(ref:l-func) Empirical L-functions for biological cell data, redwood tree data and pine tree data.
+(ref:l-func) Empirical L-functions for biological cell data, redwood tree data and pine tree data. The dotted line is the function $y = x$.
 
 ```{r l-func, fig.show="hold", out.width="32%", fig.cap="(ref:l-func)", fig.asp = 1}
 
