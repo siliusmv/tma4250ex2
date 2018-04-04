@@ -1,6 +1,5 @@
 
-
-
+# Monte Carlo simulation of a Neumann-Scott model
 clusterMC <- function(args){
 
   # lambda, sigma, area, childIntensity

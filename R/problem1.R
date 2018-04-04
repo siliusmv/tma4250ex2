@@ -1,4 +1,4 @@
-
+# Plot a point process
 plotProcess <- function(data, title = NULL, jitter = FALSE){
 
   dat <- tibble(x = data$x, y = data$y)
@@ -24,7 +24,7 @@ plotProcess <- function(data, title = NULL, jitter = FALSE){
   return(gg)
 }
 
-
+# Plot an L-function along with the dashed line y = x
 plotLFunc <- function(data, title = NULL, add_line = TRUE){
 
   dat <- tibble(x = data$x, y = data$y)
@@ -44,8 +44,9 @@ plotLFunc <- function(data, title = NULL, add_line = TRUE){
   return(gg)
 }
 
-
-testIfPois <- function(data, num_real = 100, alpha = .1, simulatePois, args, title = NULL){
+# Simulate realisations from some model and compute confidence-interval for the
+# L-function. Display along with the empirical L-function of some point process
+testModel <- function(data, num_real = 100, alpha = .1, simulatePois, args, title = NULL){
 
   if(!is.null(data$area)){
     area_size <- (data$area[2] - data$area[1]) *
@@ -90,7 +91,8 @@ testIfPois <- function(data, num_real = 100, alpha = .1, simulatePois, args, tit
 }
 
 
-
+# Simulate events from a homogenuous Poisson process
+# With a known number of events in a given area.
 simulateHomoPois <- function(args){
 
   n <- args$n

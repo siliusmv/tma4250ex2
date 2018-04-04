@@ -1,5 +1,6 @@
 
-
+# Vectorised function for calculating the phi-function needed in
+# simulation of the Strauss model
 phiFunc <- function(phi_0, phi_1, tau_0, tau){
 
   # if(tau > tau_0){
@@ -24,7 +25,7 @@ phiFunc <- function(phi_0, phi_1, tau_0, tau){
 }
 
 
-
+# Monte Carlo simulation of the Strauss model
 repulsiveMC <- function(args){
 
   phi_0 <- args$phi_0
@@ -76,7 +77,7 @@ repulsiveMC <- function(args){
 }
 
 
-
+# Acceptance probability function for the Strauss model
 acceptanceRepulsive <- function(events_mat, new_coords, i, k, phi_0, phi_1, tau_0, phiFunc){
 
   old_coords <- events_mat[i, ]
@@ -95,19 +96,6 @@ acceptanceRepulsive <- function(events_mat, new_coords, i, k, phi_0, phi_1, tau_
   new_sum <- sum(phiFunc(phi_0, phi_1, tau_0, tau_new))
   old_sum <- sum(phiFunc(phi_0, phi_1, tau_0, tau_old))
 
-  # for(j in 1:k){
-  #   if(j != i){
-  #
-  #     tau_new <- dist(rbind(new_coords, events_mat[j, ]))
-  #     tau_old <- dist(rbind(old_coords, events_mat[j, ]))
-  #
-  #     new_sum <- new_sum + phiFunc(phi_0, phi_1, tau_0, tau_new)
-  #     old_sum <- old_sum + phiFunc(phi_0, phi_1, tau_0, tau_old)
-  #
-  #   }
-  # }
-
-  # FEIL????
   log_res <- old_sum - new_sum
 
   if(log_res > 0){
@@ -118,7 +106,8 @@ acceptanceRepulsive <- function(events_mat, new_coords, i, k, phi_0, phi_1, tau_
 
 }
 
-
+# Function for evaluating the minimum distance between two
+# points in a data set
 evaluateMinDist <- function(data){
 
   min_dist <- vector("numeric", dim(data)[3])
@@ -130,6 +119,8 @@ evaluateMinDist <- function(data){
   return(min_dist)
 }
 
+# Function for evaluating the maximum distance between two
+# points in a data set
 evaluateMaxDist <- function(data){
 
   max_dist <- vector("numeric", dim(data)[3])
@@ -141,6 +132,8 @@ evaluateMaxDist <- function(data){
   return(max_dist)
 }
 
+# Function for evaluating the mean of the minimum
+# distance between two points in a data set for all data points
 evaluateMeanMinDist <- function(data){
 
   n <- dim(data)[1]
@@ -155,6 +148,8 @@ evaluateMeanMinDist <- function(data){
   return(mean_min_dist)
 }
 
+# Function for evaluating the mean of the maximum
+# distance between two points in a data set for all data points
 evaluateMeanMaxDist <- function(data){
 
   n <- dim(data)[1]
@@ -170,7 +165,7 @@ evaluateMeanMaxDist <- function(data){
 }
 
 
-
+# Function for evaluating the convergence of a Markov chain Monte Carlo algorithm
 testBurnIn <- function(evalFunc, args, num_test, title = NULL){
 
   eval_mat <- NULL
@@ -202,7 +197,7 @@ testBurnIn <- function(evalFunc, args, num_test, title = NULL){
   gg
 }
 
-
+# Generate one sample from the Strauss model
 generateRepulsivePois <- function(args){
 
   all_data <- repulsiveMC(args)

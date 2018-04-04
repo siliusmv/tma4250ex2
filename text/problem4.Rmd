@@ -76,7 +76,7 @@ data <- generateRepulsivePois(args)
 
 plotProcess(data, title = "Biological cells")
 
-testIfPois(data = cells_data,
+testModel(data = cells_data,
            simulatePois = generateRepulsivePois,
            args = args,
            num_real = 100,

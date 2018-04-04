@@ -2,6 +2,8 @@
 
 ## a)
 
+\todo[inline]{throughout the text I refer to the confidence intervals as the confidence intervals for the L-function. Not for the empirical L-function. That is correct, right?}
+
 The Neumann-Scott cluster model is a model for describing a clustered event RF.
 Mother-locations are distributed according to a homogenuous Poisson process with intensity $\lambda_M$ inside an area $\mathbf{D}$. Centered at each mother-location, a set of child-events are independently distributed with count pdf $p(k^c)$ and intensity pdf $p(\bm{x} | \bm{x}_j^M)$, where $\bm{x}_j^M$ is mother-location number $j$. For the chosen version of the model, the count pdf $p(k^c)$ is a Poisson distribution with intensity $\lambda_c$, and the intensity $p(\bm{x} | \bm{x}_j^M)$ is a normal distribution centered at $\bm{x}_j^M$ with covariance matrix $\sigma_c^2 \mathbf{I}$. All children-events that are located outside $\mathbf{D}$ must be removed.
 Only the children-events are counted as events in the resulting model.
@@ -41,7 +43,7 @@ plotProcess(data = data,
             title = "Redwood trees")
 
 
-testIfPois(data = red_data,
+testModel(data = red_data,
            simulatePois = clusterMC,
            args = cluster_args,
            title = "Redwood trees")

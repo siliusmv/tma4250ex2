@@ -91,17 +91,17 @@ We test whether the aforementioned point processes can be modelled as homogenuou
 # Simulate homogenuous poisson processes and display L-function intervals
 # along with those from the given data
 
-testIfPois(data = cells_data,
+testModel(data = cells_data,
            simulatePois = simulateHomoPois,
            args = list(n = length(cells_data$x), area = cells_data$area),
            title = "Biological cells")
 
-testIfPois(data = red_data,
+testModel(data = red_data,
            simulatePois = simulateHomoPois,
            args = list(n = length(red_data$x), area = red_data$area),
            title = "Redwood trees" )
 
-testIfPois(data = pines_data,
+testModel(data = pines_data,
            simulatePois = simulateHomoPois,
            args = list(n = length(pines_data$x), area = pines_data$area),
            title = "Pine trees")
