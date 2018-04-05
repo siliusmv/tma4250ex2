@@ -3,12 +3,6 @@
 # simulation of the Strauss model
 phiFunc <- function(phi_0, phi_1, tau_0, tau){
 
-  # if(tau > tau_0){
-  #   return(phi_0 * exp(-phi_1 * (tau - tau_0)))
-  # }
-  #
-  # return(phi_0)
-
   nonpositive <- ifelse(test = (tau <= 0),
                     yes = TRUE,
                     no = FALSE)

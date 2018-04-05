@@ -2,12 +2,23 @@
 
 ## a)
 
-The Strauss model is a model used \todo{finish writing here}
+The Strauss model is a model used for creating a repulsion event RF. We specify the model on conitional form, given the number of events $k_\text{D}$ within some area $\text{D}$.
 
+\begin{equation}
+[\mathbb{X}_\text{D}^S | k_\text{D} = k] \sim p(\bm{x}_1, \bm{x}_2, ..., \bm{x}_k | k_\text{D} = k) = const \times \prod_{i, j \in \{1, 2, ..., k\}} \text{exp} \left\{-\phi (|\bm{x}_i - \bm{x}_j|) \right\}.
+\end{equation}
 
+$\phi(\tau_{ij}) \in \mathbb{R}_\oplus;\ \tau_{ij} = |\bm{x}_i - \bm{x}_j|$ is a pairwise interaction function that declines for increasing values of $\tau_{ij}$. In our implementation the interaction function takes the form
 
 To test whether the simulated Markov chain has reached convergence, one can generate and display several Markov chains with different initial values to see when the initial state has been forgotten. First, we make a guess of the parameters needed for simulating the biological cell data. Then we test the convergence of the algorithm using these values. The results of this can be seen in figure \@ref(fig:burn-in).
 
+\begin{equation}
+\phi({\tau}) =
+\begin{split}
+&\phi_0; 0 \leqslant \tau \leqslant \tau_0 \\
+&\phi_0; \text{exp} \{-\phi_1[\tau - \tau_0]\}; \tau > \tau_0
+\end{split}.
+\end{equation}
 
 (ref:burn-in) Four different functions for evaluating convergence of the Markov chain used for simulating the Strauss model. One sample is drawn for each 10. iteration of the Markov chain.
 

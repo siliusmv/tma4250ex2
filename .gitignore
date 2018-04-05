@@ -9,3 +9,5 @@
 *_book
 .log
 .Rproj.user
+*cache
+*figure
