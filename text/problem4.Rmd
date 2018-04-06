@@ -2,10 +2,10 @@
 
 ## a)
 
-The Strauss model is a model used for creating a repulsion event RF. We specify the model on conitional form, given the number of events $k_\text{D}$ within some area $\text{D}$.
+The Strauss model is a model used for creating a repulsion event RF. We specify the model on conditional form, given the number of events $k_\text{D}$ within some area $\text{D}$.
 
 \begin{equation}
-[\mathbb{X}_\text{D}^S | k_\text{D} = k] \sim p(\bm{x}_1, \bm{x}_2, ..., \bm{x}_k | k_\text{D} = k) = const \times \prod_{i, j \in \{1, 2, ..., k\}} \text{exp} \left\{-\phi (|\bm{x}_i - \bm{x}_j|) \right\}.
+\left[\mathbb{X}_\text{D}^S | k_\text{D} = k\right] \sim p(\bm{x}_1, \bm{x}_2, ..., \bm{x}_k | k_\text{D} = k) = const \times \prod_{i, j \in \{1, 2, ..., k\}} \text{exp} \left\{-\phi (|\bm{x}_i - \bm{x}_j|) \right\}.
 \end{equation}
 
 $\phi(\tau_{ij}) \in \mathbb{R}_\oplus;\ \tau_{ij} = |\bm{x}_i - \bm{x}_j|$ is a pairwise interaction function that declines for increasing values of $\tau_{ij}$. In our implementation the interaction function takes the form
@@ -17,11 +17,11 @@ $\phi(\tau_{ij}) \in \mathbb{R}_\oplus;\ \tau_{ij} = |\bm{x}_i - \bm{x}_j|$ is a
 \end{alignedat}\right.
 \end{equation}
 
-It $\phi_0$ takes a high value, the probability of finding an event within a distance of less than $\tau_0$ from another event will be very small. $\tau_0$ therefore works as a border, and we will often expect a minimal distance between events with the same magnitude as $\tau_0$. The interaction function decreases towards zero for larger values of $\tau$. The rate of the decrease is controlled by the parameter $\phi_1$.
+If $\phi_0$ takes a high value, the probability of finding an event within a distance of less than $\tau_0$ from another event will be very small. $\tau_0$ therefore works as a border, and we will often expect a minimal distance between events with the same magnitude as $\tau_0$. The interaction function decreases towards zero for larger values of $\tau$. The rate of the decrease is controlled by the parameter $\phi_1$.
 
 To test whether the simulated Markov chain has reached convergence, one can generate and display several Markov chains with different initial values to see when the initial state has been forgotten. First, we make a guess of the parameters needed for simulating the biological cell data. Then we test the convergence of the algorithm using these values. The results of this can be seen in figure \@ref(fig:burn-in).
 
-(ref:burn-in) Four different functions for evaluating convergence of the Markov chain used for simulating the Strauss model. One sample is drawn for each 10. iteration of the Markov chain.
+(ref:burn-in) Four different functions for evaluating convergence of the Markov chain used for simulating the Strauss model. One sample is drawn for every tenth iteration of the Markov chain.
 
 ```{r burn-in, fig.cap = "(ref:burn-in)"}
 ############
@@ -72,9 +72,9 @@ grid.arrange(gg_1, gg_2, gg_3, gg_4)
   
 ```
 
-After some studying of figure \@ref(fig:burn-in) we assumed that any Markov chain has reached convergence after 700 iterations for the given set of parameters. Now, it is possible to test the Strauss model. We simulate 100 realisations of the model, and construct 0.9-confidence intervals for the L-function. The confidence intervals are displayed along with the empirical L-function for the redwood tree data in figure \@ref(fig:repulsive-test). Due to the low computational cost, the 100 samples are generated from 100 independent Markov chains to ensure iid data.
+After studying figure \@ref(fig:burn-in) we assume that any Markov chain has reached convergence after 700 iterations for the given set of parameters. Now, it is possible to test the Strauss model. We simulate 100 realisations of the model, and construct 0.9-confidence intervals for the L-function. The confidence intervals are displayed along with the empirical L-function for the redwood tree data in figure \@ref(fig:repulsive-test). Due to the low computational cost, the 100 samples are generated from 100 independent Markov chains to ensure iid data.
 
-(ref:repulsive-test) The left figure shows an example of a simulated Strauss model with parameters $\phi_0 = 100$, $\phi_1 = 50$ and $\tau_0 = 0.02$ . The right figure displays the empirical L-function for the biological cell data along with 0.9-confidence intervals for the L-function. These are made from simulation of 100 Strauss event RF models with the same parameters.
+(ref:repulsive-test) The left figure shows an example of a simulated Strauss model with parameters $\phi_0 = 100$, $\phi_1 = 50$ and $\tau_0 = 0.02$. The right figure displays the empirical L-function for the biological cell data along with 0.9-confidence intervals for the L-function. These are made from simulation of 100 Strauss event RF models with the same parameters.
 
 
 ```{r repulsive-test, fig.cap = "(ref:repulsive-test)", fig.show = "hold", out.width = "45%"}
@@ -96,6 +96,4 @@ testModel(data = cells_data,
 
 ```
 
-We see that the Strauss model with the given parameters capture the repulsion of the cell data very well. For larger values of $t$, the confidence-interval obtains a lower value of L$(T)$ than that of the biological cell data. This is not the most important area of for simulation, though. The relative size of the error is not too large, either. It can also be seen that the simulation in figure \@ref(fig:repulsive-test) is similar to the point process of biological cell data in figure \@ref(fig:processes). We can therefore conclude that the Strauss model is good enough for modeling our given data set.
-
-\todo[inline]{Conclusion could have been written better...}
+We see that the Strauss model with the given parameters capture the repulsion of the cell data very well. For larger values of $t$, the confidence-interval obtains a lower value of L$(T)$ than that of the biological cell data. This is not the most important area of for simulation, though. Additionally, the relative size of the error is not too large. It can also be seen that the simulation in figure \@ref(fig:repulsive-test) is similar to the point process of biological cell data in figure \@ref(fig:processes). We can therefore conclude that the Strauss model is good enough for modeling our given data set.
