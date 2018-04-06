@@ -25,6 +25,8 @@ By studying the redwood tree data in figure \@ref(fig:processes), we try to fit 
 (ref:mother-child) The left figure shows an example of a simulated Neumann-Scott model with parameters $\lambda_M = 12$, $\lambda_c = 5$, $\sigma_c^2 = 0.05^2$. The right figure displays the empirical L-function for the redwood data along with 0.9-confidence intervals for the L-function. These are made from simulation of 100 Neumann-Scott event RF models with the same parameters.
 
 ```{r mother-child, fig.cap = "(ref:mother-child)", fig.show="hold", out.width="45%"}
+############
+## Problem 3
 
 mothers <- 12
 children <- 5

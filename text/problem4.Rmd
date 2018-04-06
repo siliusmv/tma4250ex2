@@ -22,6 +22,8 @@ To test whether the simulated Markov chain has reached convergence, one can gene
 (ref:burn-in) Four different functions for evaluating convergence of the Markov chain used for simulating the Strauss model. One sample is drawn for each 10. iteration of the Markov chain.
 
 ```{r burn-in, fig.cap = "(ref:burn-in)"}
+############
+## PRoblem 4
 
 phi_0 <- 100
 phi_1 <- 50

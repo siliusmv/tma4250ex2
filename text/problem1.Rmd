@@ -14,6 +14,9 @@ The pine trees looks to be very randomly distributed. There is some clustering, 
 
 
 ```{r}
+############
+## Problem 1
+
 # Load data
 
 cells_data <- ppinit("../data/cells.dat")
