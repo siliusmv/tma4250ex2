@@ -75,7 +75,7 @@ pi_k <- lambda_hat * 100
 
 The numerical value of this estimate of $\lambda_k$ is found to be `r sprintf("%.7f", lambda_hat)`. As $\pi_k = \lambda_k \Delta$, we get $\hat{\pi}_k = `r sprintf("%.5f", pi_k)`$.
 
-```{r}
+```{r, out.width="95%", fig.asp = 1.5}
 n <- length(obspines$N_obs)
 allPlots <- NULL
 for (i in 1:10) {
@@ -89,8 +89,8 @@ for (i in 1:10) {
 gg <- ggplot(allPlots, aes(x, y)) +
   geom_raster(aes(fill = N_obs)) +
   scale_fill_viridis("Number of trees") +
-  labs(title = "Number of pine tree observations") +
-  facet_wrap(~num, ncol=2, nrow=5) +
+  labs(title = "Number of pine tree observations") + 
+  facet_wrap(~num, ncol=2, nrow=5, scale = "free") +
   theme(strip.background = element_blank(), strip.text.x = element_blank())
 gg
 ```
