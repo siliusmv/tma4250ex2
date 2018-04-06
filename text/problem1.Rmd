@@ -2,15 +2,13 @@
 
 ## a)
 
-\todo[inline]{I'm not sure I like my notation for $\text{D}$. Don't know what else to use, though.}
-
 \todo[inline]{make sure we use only stationary Poisson or homogenuous Poisson!}
 
 The point patterns from the three different data sets can be seen in figure \@ref(fig:processes). The biological cell data is very evenly spread out. There is absolutely no clustering. This indicates that there is some natural repulsion happening. The cell data might depend on the amount of minerals and moisture of the soil. If to much biological cells get close to each other, they will compete for resources until all but one of them dies.
 
-The redwood locations are highly clustered. This might happen because the redwood trees work together to fend of other tree types. It can also be expected that the trees will be close if the seeds from one tree is unable to travel greater distances.
+The redwood locations are highly clustered. This might happen because the redwood trees work together to fend off other tree types. It can also be expected that the trees will be close if the seeds from one tree is unable to travel greater distances.
 
-The pine trees looks to be very randomly distributed. There is some clustering, and some areas without any growth. This is an indicator of a process where the location of different events is independent. An example of such a process is the location of rain drops over some time interval within a given area.
+The pine trees looks to be randomly distributed. There is some clustering, and some areas without any growth. This is an indicator of a process where the locations of different events are independent from one another. An example of such a process is the location of rain drops over some time interval within a given area.
 
 
 ```{r}
@@ -24,7 +22,7 @@ red_data <- ppinit("../data/redwood.dat")
 pines_data <- ppinit("../data/pines.dat")
 ```
 
-(ref:processes) Point patterns displaying the biological cell data, redwood tree data and pine tree data of three different grids inside an $1 \times 1$ area.
+(ref:processes) Point patterns displaying the biological cell data, redwood tree data and pine tree data of three different grids inside a $1 \times 1$ area.
 
 ```{r processes, fig.show="hold", out.width="32%", fig.asp=1, fig.cap = "(ref:processes)"}
 # Display data
@@ -43,7 +41,7 @@ plotProcess(pines_data, "Pine trees")
 The L-function is a descriptive statistic for an event random field (RF) that measures the clustering or repulsive effects in a point process. In two dimensions the function becomes
 
 \begin{equation}
-\text{L}_2(t) = \left[\frac{E[k_{B_{\bm{x}_0}(t)} - 1]}{\lambda_k \pi}\right]^{1 / 2}.
+\text{L}_2(t) = \left[\frac{E\left[k_{B_{\bm{x}_0}(t)} - 1\right]}{\lambda_k \pi}\right]^{1 / 2}.
 \end{equation}
 
 $k_{B_{\bm{x}_0}(t)}$ is defined as the number of events inside the ball of radius $t$ centered at $\bm{x}_0$. 
@@ -56,19 +54,19 @@ The empirical L-function of a point process can be calculated using
 
 Here, $d_{ij}$ denotes the distance between the points $\bm{x}_i$ and $\bm{x}_j$, with $i,j = 1,...,n$. The estimator $\hat{\lambda}_k$ is simply the number of events $n$ divided by the area of the region containing the point process.
 
-The L-function is independent of the location of $\bm{x}_0$. Thus \todo[inline]{I don't understand how I am supposed to explain this. I really don't understand it myself... Not sure that it's very important, though} it can be found that for a homogenuous Poisson process, $E[k_{B_{\bm{x}_0}(t)} - 1] = \lambda_k \pi t^2$. One therefore finds $\text{L}_2(t) = t$. The clustering or repulsion of a point process can also be measured using the J-function,
+The L-function is independent of the location of $\bm{x}_0$. Thus \todo[inline]{I don't understand how I am supposed to explain this. I really don't understand it myself... Not sure that it's very important, though} it can be found that for a homogenuous Poisson process, $E\left[k_{B_{\bm{x}_0}(t)} - 1\right] = \lambda_k \pi t^2$. One therefore finds $\text{L}_2(t) = t$. The clustering or repulsion of a point process can also be measured using the J-function,
 
 \begin{equation}
-J(t) = \frac{E[k_{B_{\bm{x}_0}(t)} - 1]}{|B_{\bm{x}_0}(t)|}. 
+J(t) = \frac{E\left[k_{B_{\bm{x}_0}(t)} - 1\right]}{|B_{\bm{x}_0}(t)|}. 
 \end{equation}
 
 For a homogenuous Poisson process, the theoretical J-function takes the constant value $J(t) = \lambda_k$.
 
-Using the built-in function `spatial::Kfn()`, the empirical L-function for a point process can be computed. The empirical L-functions for the three data sets can be seen in figure \@ref(fig:l-func). The L-function for the pine trees looks to follow a straight line with slope 1. This is a strong indicator of a homogeneous Poisson process. 
+Using the built-in function `spatial::Kfn()`, the empirical L-function for a point process can be computed. The empirical L-functions for the three data sets can be seen in figure \@ref(fig:l-func). The L-function for the pine trees seems to follow a straight line with slope 1. This is a strong indicator of a homogeneous Poisson process. 
 
-The biological cell data L-function is equal to zero when $t$ is small. It grows quickly in the interval $t \in (0.1, 0.2)$ and approximately follows a slope of 1 for large distances. This indicates that the probability of finding two points with an intermediate distance of less than 0.1 is very small i.e. the process might be described well with a repulsive event RF. Therefore a homogenuous Poisson RF does not appear as a suitable model for the point pattern.
+The L-function of the biological cell data is equal to zero when $t$ is small. It grows quickly in the interval $t \in (0.1, 0.2)$ and approximately follows a slope of 1 for large distances. This indicates that the probability of finding two points with an intermediate distance of less than 0.1 is very small i.e. the process might be described well with a repulsive event RF. Therefore, a homogenuous Poisson RF does not appear to be a suitable model for the point pattern.
 
-The redwood tree data has an L-function that grows quickly for small values of $t$. This indicates a large probability of finding points that are close to each other. Therefore, the process might be modeled well using a clustered event RF. A homogenuous Poisson RF doen not appear to be a suitable model for this point pattern.
+The redwood tree data has an L-function that grows quickly for small values of $t$. This indicates a large probability of finding points that are close to each other. Therefore, the process might be modeled well using a clustered event RF. A homogenuous Poisson RF does not appear to be a suitable model for this point pattern.
 
 (ref:l-func) Empirical L-functions for biological cell data, redwood tree data and pine tree data. The dotted line is the theoretical L-function for a homogenuous Poisson process.
 
@@ -88,13 +86,13 @@ plotLFunc(pines_L, "Pine trees")
 
 ## c)
 
-Monte Carlo simulation can be used to test whether the given data sets can be modelled as homogenuous Poisson processes. In a homogenuous Poisson process, the conditional location of all events when the number of events is known is distributed uniformly in space. Conditioned on the event count $n$, one can simulate the location of the events from a homogenuous Poisson process inside an area $\text{D}$ by distributing the $n$ events uniformly inside $\text{D}$. \todo[inline]{could have been written better...} 
+Monte Carlo simulation can be used to test whether the given data sets can be modelled as stationary Poisson processes. In a stationary Poisson process, the conditional location of all events when the number of events is known is distributed uniformly in space. Conditioned on the event count $n$, one can simulate the location of the events from a stationary Poisson process inside an area $\mathbf{D}$ by distributing the $n$ events uniformly inside $\mathbf{D}$.
 
-We test whether the aforementioned point processes can be modelled as homogenuous Poisson processes. This is done by simulating 100 realisations of homogenuous Poisson processes with the same number of events in a domain of the same size. Using these realisations, 0.9-confidence intervals for the L-functions can be calculated an displayed along with the empirical L-function of the original point processes. The results can be seen in figure \@ref(fig:mc-test). It can be seen that the Pine tree data is well within the confidence interval. This indicates that a homogenuous Poisson RF is a fitting model for explaining the point process. The empirical L-functions for the other two point processes are well outside of the given conficence intervals for small distances. The Poisson RF is not able to explain this behaviour and should not be used when modeling the two point processes.
+We test whether the aforementioned point processes can be modelled as stationary Poisson processes. This is done by simulating 100 realisations of stationary Poisson processes with the same number of events in a domain of the same size. Using these realisations, 0.9-confidence intervals for the L-functions can be calculated and displayed along with the empirical L-function of the original point processes. The results can be seen in figure \@ref(fig:mc-test). It can be seen that the pine tree data is well within the confidence interval. This indicates that a stationary Poisson RF is a fitting model for explaining this point process. The empirical L-functions for the other two point processes are well outside of the given confidence intervals for small distances. The Poisson RF is not able to explain this behaviour and should not be used when modeling the two point processes.
 
-<!-- If the samples $\mathbf{X}_{D} = (\bm{x}_1, ..., \bm{x}_k)$ is iid Poisson with some constant intensity $\lambda$, then $[\bm{X}_\text{D} | k] \sim \text{Uniform}(\bm{D})$. -->
+<!-- If the samples $\mathbf{X}_{D} = (\bm{x}_1, ..., \bm{x}_k)$ is iid Poisson with some constant intensity $\lambda$, then $[\bm{X}_\mathbf{D} | k] \sim \text{Uniform}(\bm{D})$. -->
 
-(ref:mc-test) Empirical L-functions for tree different point processes are displayed along with empirical $0.9$-confidence intervals for the L-function generated from homogenuous Poisson processes conditioned on the event-count in the three point processes.
+(ref:mc-test) Empirical L-functions for tree different point processes are displayed along with empirical $0.9$-confidence intervals for the L-function generated from stationary Poisson processes conditioned on the event-count in the three point processes.
 
 ```{r mc-test, fig.show = "hold", out.width="32%", fig.asp=1, fig.cap = "(ref:mc-test)"}
 
