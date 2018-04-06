@@ -62,38 +62,43 @@ The maximum likelihood estimate of $\lambda_k$ can be found through
 and can be written explicitly as
 
 \begin{equation}
-\hat{\lambda}_k = \frac{1}{|\mathbf{L}|} \frac{\sum_{i=1}^{n} d_i}{\sum_{i=1}^{n} \alpha_i},
+\hat{\lambda}_k = \frac{1}{\Delta} \frac{\sum_{i=1}^{n} d_i}{\sum_{i=1}^{n} \alpha_i}.
 \end{equation}
 
-where $|\mathbf{L}|$ is the area of grid $\mathbf{L}$. By running the following `R` code, we get a numerical estimate of $\lambda_k$.
-
-```{r }
-lambda_hat <- (1/(300*300)) * sum(obspines$N_obs)/sum(obsprob$alpha)
-lambda_hat
+```{r}
+lambda_hat <- (1/(10*10)) * sum(obspines$N_obs)/sum(obsprob$alpha)
+pi_k <- lambda_hat * 100
 ```
 
-```{r }
-u <- ceiling(runif(10, 0, 30)) * 10 - 5
-v <- ceiling(runif(10, 0, 30)) * 10 - 5
-N_simObs <- vector("integer", 30*30)
-simObs <- obspines
+The numerical value of this estimate of $\lambda_k$ is found to be `r sprintf("%.7f", lambda_hat)`. As $\pi_k = \lambda_k \Delta$, we get $\hat{\pi}_k = `r sprintf("%.5f", pi_k)`$.
+
+```{r}
+n <- length(obspines$N_obs)
+allPlots <- NULL
 for (i in 1:10) {
-  for (j in 1:(30*30)) {
-    if (u[i] == simObs$x[j] && v[i] == simObs$y[j]) {
-      N_simObs[j] <- N_simObs[j] + 1
-    }
+  simulated <- obspines
+  for (j in 1:n) {
+    simulated$N_obs[j] <- rpois(1, pi_k)
   }
+  simulated$num <- as.character(i)
+  allPlots <- rbind(allPlots, simulated)
 }
-simObs$N_obs <- N_simObs
-gg <- ggplot(data=simObs, aes(x, y)) +
-  geom_tile(aes(fill = simObs$N_obs)) +
-  scale_fill_viridis(breaks = 0:10, labels = 0:10) +
-  labs(title = "Simulation of number of pine trees")
+gg <- ggplot(allPlots, aes(x, y)) +
+  geom_raster(aes(fill = N_obs)) +
+  scale_fill_viridis("Number of trees") +
+  labs(title = "Number of pine tree observations") +
+  facet_wrap(~num, ncol=2, nrow=5) +
+  theme(strip.background = element_blank(), strip.text.x = element_blank())
 gg
 ```
 
 
 ## d)
 
-The posterior discretised event-count model can be found by noting that $p(\bm{k} | \bm{d}) \propto p(\bm{d} | \bm{k}) p(\bm{k})$, where we know that $p(\bm{d} | \bm{k})$ is a product of binomial distributions, and $p(\bm{k})$ is a product of Poisson distributions, as argued in a) and b).
+The posterior discretised event-count model can be found by noting that $p(\bm{k} | \bm{d}) \propto p(\bm{d} | \bm{k}) p(\bm{k})$, where we know that $p(\bm{d} | \bm{k})$ is a product of binomial distributions, and $p(\bm{k})$ is a product of Poisson distributions, as argued in a) and b). Hence, we get
 
+\begin{equation}
+p(\bm{k} | \bm{d}) \propto \prod_{i=1}^{n} \frac{\alpha_i^{d_i}}{\pi_k^{d_i} \exp{(\alpha_i \pi_k)}} \frac{((1-\alpha_i)\pi_k)^{k_i-d_i}}{(k_i-d_i)!} \exp{(-(1-\alpha_i)\pi_k)} \propto \prod_{i=1}^{n} \frac{((1-\alpha_i)\pi_k)^{k_i-d_i}}{(k_i-d_i)!} \exp{(-(1-\alpha_i)\pi_k)},
+\end{equation}
+
+which is a product of Poisson distributions with parameters $(1-\alpha_i)\pi_k$ for $i = 1,...,n$.
