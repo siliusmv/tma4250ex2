@@ -40,7 +40,7 @@ plotProcess(pines_data, "Pine trees")
 
 ## b)
 
-The L-function is a descriptive statistic for event RF that measures the clustering or repulsive effects in a point process. In two dimensions the function becomes
+The L-function is a descriptive statistic for an event random field (RF) that measures the clustering or repulsive effects in a point process. In two dimensions the function becomes
 
 \begin{equation}
 \text{L}_2(t) = \left[\frac{E[k_{B_{\bm{x}_0}(t)} - 1]}{\lambda_k \pi}\right]^{1 / 2}.

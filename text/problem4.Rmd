@@ -10,14 +10,16 @@ The Strauss model is a model used for creating a repulsion event RF. We specify 
 
 $\phi(\tau_{ij}) \in \mathbb{R}_\oplus;\ \tau_{ij} = |\bm{x}_i - \bm{x}_j|$ is a pairwise interaction function that declines for increasing values of $\tau_{ij}$. In our implementation the interaction function takes the form
 
-To test whether the simulated Markov chain has reached convergence, one can generate and display several Markov chains with different initial values to see when the initial state has been forgotten. First, we make a guess of the parameters needed for simulating the biological cell data. Then we test the convergence of the algorithm using these values. The results of this can be seen in figure \@ref(fig:burn-in).
-
 \begin{equation}
 \phi({\tau}) = \left \{ \begin{alignedat}{2}
 &\phi_0;&& 0 \leqslant \tau \leqslant \tau_0 \\
 &\phi_0 \text{exp} \{-\phi_1[\tau - \tau_0]\};\ \ && \tau > \tau_0
 \end{alignedat}\right.
 \end{equation}
+
+It $\phi_0$ takes a high value, the probability of finding an event within a distance of less than $\tau_0$ from another event will be very small. $\tau_0$ therefore works as a border, and we will often expect a minimal distance between events with the same magnitude as $\tau_0$. The interaction function decreases towards zero for larger values of $\tau$. The rate of the decrease is controlled by the parameter $\phi_1$.
+
+To test whether the simulated Markov chain has reached convergence, one can generate and display several Markov chains with different initial values to see when the initial state has been forgotten. First, we make a guess of the parameters needed for simulating the biological cell data. Then we test the convergence of the algorithm using these values. The results of this can be seen in figure \@ref(fig:burn-in).
 
 (ref:burn-in) Four different functions for evaluating convergence of the Markov chain used for simulating the Strauss model. One sample is drawn for each 10. iteration of the Markov chain.
 
