@@ -106,7 +106,7 @@ The posterior discretised event-count model can be found by noting that $p(\bm{k
 p(\bm{k} | \bm{d}) \propto \prod_{i=1}^{n} \frac{\alpha_i^{d_i}}{\pi_k^{d_i} \exp{(\alpha_i \pi_k)}} \frac{((1-\alpha_i)\pi_k)^{k_i-d_i}}{(k_i-d_i)!} \exp{(-(1-\alpha_i)\pi_k)} \propto \prod_{i=1}^{n} \frac{((1-\alpha_i)\pi_k)^{k_i-d_i}}{(k_i-d_i)!} \exp{(-(1-\alpha_i)\pi_k)},
 \end{equation}
 
-which is a product of Poisson distributions with parameters $(1-\alpha_i)\pi_k$ for $i = 1,...,n$. Again, we can generate ten realisations of the approximate event-location model -- this time using the marginal posterior distributions with parameters $(1-\alpha_i)\pi_k$. After doing so, we need to include the observed pine trees as well, due to the fact that the posterior model only gives us the number of non-observed trees. The results are displayed in figure \@ref(fig:posteriorRealisations).
+which is a product of Poisson distributions with parameters $(1-\alpha_i)\pi_k$ for $i = 1,...,n$. Again, we can generate ten realisations of the approximate event-location model -- this time using the marginal posterior distributions with parameters $(1-\alpha_i)\pi_k$. After doing so, we need to include the (known) observed pine trees as well, due to the fact that the posterior model only gives us the number of non-observed trees. The results are displayed in figure \@ref(fig:posteriorRealisations).
 
 (ref:posteriorRealisations) Plots of ten approximate Poisson event-location realisations when using the posterior model.
 
@@ -130,4 +130,4 @@ gg <- ggplot(allPlots, aes(x, y)) +
 gg
 ```
 
-From these realisations it seems as if the posterior distribution generates more pine trees overall than does the prior distribution. Except for this observations, it is difficult to say anything categorical about the differences between the realisations just from looking at the figures. However, as the posterior model incorporates information from the observed number of pine trees, as well as the probability of making an observation, in each grid node, we should expect it to be more accurate than the prior model.
+From these figures it does not seem to be any immediately detectable differences between using the prior and the posterior models for simulation of realisations -- that is, it is difficult to say anything categorical about the differences between the realisations just from looking at the figures. This indicates that the stationary Poisson prior is quite good at capturing the behaviour of the distribution of pine trees, confirming our discussion in problem 1. However, as the posterior model incorporates information from the observed number of pine trees, as well as the probability of making an observation, in each grid node, we should expect it to be more accurate than the prior model.

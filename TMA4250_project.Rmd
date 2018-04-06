@@ -27,8 +27,6 @@ source("R/problem4.R")
 knitr::read_chunk("R/problem1.R")
 knitr::read_chunk("R/problem3.R")
 knitr::read_chunk("R/problem4.R")
-
-
 ```
 
 ```{r child = 'text/problem1.Rmd'}
