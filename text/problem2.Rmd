@@ -9,7 +9,7 @@ pines_data <- ppinit("../data/pines.dat")
 
 ## a)
 
-We are given a $(300 \times 300)$ m$^2$ area containing a pine tree forest, and we discretise the area into a regular $(30 \times 30)$-grid $\mathbf{L}$, each unit having size 100 m$^2$. The unknown true number of trees located in each unit is given by $\bm{k} = \{k(\bm{x}) | \bm{x} \in \mathbf{L}\}$, and the probability of observing a pine tree in each grid unit is given by $\bm{\alpha} = \{\alpha(\bm{x}) | \bm{x} \in \mathbf{L}\}$ with $\alpha(\bm{x}) \in [0,1]$ $\forall \bm{x} \in \mathbf{L}$, and is plotted in figure \@ref(fig:pineTreeObsProb). The number of pine trees observed in each grid unit is given by $\bm{d} = \{d(\bm{x}) | \bm{x} \in \mathbf{L}\}$, and these are displayed in figure \@ref(fig:pineTreeObs).
+We are given a $(300 \times 300)$ m$^2$ area containing a pine tree forest, and we discretise the area into a regular $(30 \times 30)$-grid $\mathbf{L}$, each unit having size 100 m$^2$. The unknown true number of trees located in each unit is given by $\bm{k} = \{k(\bm{x}) | \bm{x} \in \mathbf{L}\}$, and the probability of observing a pine tree in each grid unit is given by $\bm{\alpha} = \{\alpha(\bm{x}) | \bm{x} \in \mathbf{L}\}$ with $\alpha(\bm{x}) \in [0,1]$ $\forall \bm{x} \in \mathbf{L}$. $\bm{\alpha}$ is plotted in figure \@ref(fig:pineTreeObsProb). The number of pine trees observed in each grid unit is given by $\bm{d} = \{d(\bm{x}) | \bm{x} \in \mathbf{L}\}$, and these are displayed in figure \@ref(fig:pineTreeObs).
 
 ```{r pineTreeObsProb, fig.cap = "The probability of observing a pine tree for each grid unit in L."}
 obsprob <- data.frame(read.table("../data/obsprob.txt", header = TRUE))
@@ -30,13 +30,13 @@ gg <- ggplot(data=obspines, aes(x, y)) +
 gg
 ```
 
-We make the assumption that the observations given the true number of pine trees are spatially uncorrelated between grid units. We also assume that we do not observe pine trees that are not there, giving the condition $\bm{d} \leqslant \bm{k}$. For each grid unit $i$, we therefore get a binomial likelihood model with $d_i \leqslant k_i$ and probabilities $\alpha_i$, written out as
+We make the assumption that the observations given the true number of pine trees are spatially uncorrelated between grid units. We also assume that we do not observe pine trees that are not there, giving the condition $d(\bm{x}) \leqslant k(\bm{x})$ $\forall \bm{x} \in \mathbf{L}$. For each grid unit $i$, we therefore get a binomial likelihood model with $d_i \leqslant k_i$ and probabilities $\alpha_i$, written out as
 
 \begin{equation}
 [d_i | k_i] \sim p(d_i | k_i) = \binom{k_i}{d_i} \alpha_i^{d_i} (1 - \alpha_i)^{k_i - d_i}.
 \end{equation}
 
-As we have assumed no correlation between observations in different grid units given $\bm{k}$, the joint likelihood model is simply the product of the individual likelihoods over the whole grid $\mathbf{L}$, giving
+As we have assumed no correlation between observations in different grid units when $\bm{k}$ is given, the joint likelihood model is simply the product of the individual likelihoods over the whole grid $\mathbf{L}$, giving
 
 \begin{equation}
 [\bm{d} | \bm{k}] \sim p(\bm{d} | \bm{k}) = \prod_{i=1}^{n} p(d_i | k_i) = \prod_{i=1}^{n} \binom{k_i}{d_i} \alpha_i^{d_i} (1 - \alpha_i)^{k_i - d_i},
@@ -73,9 +73,11 @@ lambda_hat <- (1/(10*10)) * sum(obspines$N_obs)/sum(obsprob$alpha)
 pi_k <- lambda_hat * 100
 ```
 
-The numerical value of this estimate of $\lambda_k$ is found to be `r sprintf("%.7f", lambda_hat)`. As $\pi_k = \lambda_k \Delta$, we get $\hat{\pi}_k = `r sprintf("%.5f", pi_k)`$.
+The numerical value of this estimate of $\lambda_k$ is found to be `r sprintf("%.7f", lambda_hat)`. As $\pi_k = \lambda_k \Delta$, we get $\hat{\pi}_k = `r sprintf("%.5f", pi_k)`$. We are know able to simulate ten approximate Poisson event-location realisations by sampling from the marginal prior Poisson distributions, each of which has parameter $\hat{\pi}_k$. The results are given in figure \@ref(fig:priorRealisations).
 
-```{r, out.width="95%", fig.asp = 1.5}
+(ref:priorRealisations) Plots of ten approximate Poisson event-location realisations when using the prior model.
+
+```{r priorRealisations, out.width="95%", fig.asp = 1.4, fig.cap="(ref:priorRealisations)"}
 n <- length(obspines$N_obs)
 allPlots <- NULL
 for (i in 1:10) {
@@ -104,4 +106,28 @@ The posterior discretised event-count model can be found by noting that $p(\bm{k
 p(\bm{k} | \bm{d}) \propto \prod_{i=1}^{n} \frac{\alpha_i^{d_i}}{\pi_k^{d_i} \exp{(\alpha_i \pi_k)}} \frac{((1-\alpha_i)\pi_k)^{k_i-d_i}}{(k_i-d_i)!} \exp{(-(1-\alpha_i)\pi_k)} \propto \prod_{i=1}^{n} \frac{((1-\alpha_i)\pi_k)^{k_i-d_i}}{(k_i-d_i)!} \exp{(-(1-\alpha_i)\pi_k)},
 \end{equation}
 
-which is a product of Poisson distributions with parameters $(1-\alpha_i)\pi_k$ for $i = 1,...,n$.
+which is a product of Poisson distributions with parameters $(1-\alpha_i)\pi_k$ for $i = 1,...,n$. Again, we can generate ten realisations of the approximate event-location model -- this time using the marginal posterior distributions with parameters $(1-\alpha_i)\pi_k$. After doing so, we need to include the observed pine trees as well, due to the fact that the posterior model only gives us the number of non-observed trees. The results are displayed in figure \@ref(fig:posteriorRealisations).
+
+(ref:posteriorRealisations) Plots of ten approximate Poisson event-location realisations when using the posterior model.
+
+```{r posteriorRealisations, out.width="95%", fig.asp = 1.4, fig.cap="(ref:posteriorRealisations)"}
+n <- length(obspines$N_obs)
+allPlots <- NULL
+for (i in 1:10) {
+  simulated <- obspines
+  for (j in 1:n) {
+    simulated$N_obs[j] <- rpois(1, (1 - obsprob$alpha[j]) * pi_k) + obspines$N_obs[j]
+  }
+  simulated$num <- as.character(i)
+  allPlots <- rbind(allPlots, simulated)
+}
+gg <- ggplot(allPlots, aes(x, y)) +
+  geom_raster(aes(fill = N_obs)) +
+  scale_fill_viridis("Number of trees") +
+  labs(title = "Number of pine tree observations using posterior model") +
+  facet_wrap(~num, ncol=2, nrow=5, scale = "free") +
+  theme(strip.background = element_blank(), strip.text.x = element_blank())
+gg
+```
+
+From these realisations it seems as if the posterior distribution generates less pine trees overall than does the prior distribution. Except from this observations, it is difficult to say anything categorical about the differences between the realisations, just from looking at the figures. However, as the posterior model incorporates information from the observed number of pine trees, as well as the probability of making an observation, in each grid node, we should expect it to be more accurate than the prior model.
