@@ -2,8 +2,6 @@
 
 ## a)
 
-\todo[inline]{throughout the text I refer to the confidence intervals as the confidence intervals for the L-function. Not for the empirical L-function. That is correct, right?}
-
 The Neumann-Scott cluster model is a model for describing a clustered event RF.
 Mother-locations are distributed according to a homogenuous Poisson process with intensity $\lambda_M$ inside an area $\text{D}$. Centered at each mother-location, a set of child-events are independently distributed with count pdf $p(k^c)$ and intensity pdf $p(\bm{x} | \bm{x}_j^M)$, where $\bm{x}_j^M$ is mother-location number $j$. For the chosen version of the model, the count pdf $p(k^c)$ is a Poisson distribution with intensity $\lambda_c$, and the intensity $p(\bm{x} | \bm{x}_j^M)$ is a normal distribution centered at $\bm{x}_j^M$ with covariance matrix $\sigma_c^2 \mathbf{I}$. All children-events that are located outside $\text{D}$ must be removed.
 Only the children-events are counted as events in the resulting model.
@@ -20,13 +18,15 @@ This gives the pdf
 
 The pdf in \eqref{eq:mother-child} are divided into three parts. The first factor explains the probability of the location of a child-event location given its mother-location. It is equal zero when a child-event is outside $\text{D}$. The second factor explains the probability of $k_{Dj}^c$ child-events happening inside $\text{D}$ given that the realisation from the count pdf $p(k^c)$ is $k_j^c$. The last factor is the pdf for the number and placement of the mother-locations.
 
-The Neumann-Scott event RF model in not analytically tractable, but realisations are simple to generate. \todo{this is copied from the compendium. Is that okay?} First, the number of mother-locations is generated and the locations are distributed uniformly on $\text{D}$. Then, for each mother location, the number of child-events are generated, and the child-events are distributed according to their intensity pdf's. At last, all child-events outside $\text{D}$ are removed.
+The Neumann-Scott event RF model in not analytically tractable, but realisations are simple to generate. First, the number of mother-locations is generated and the locations are distributed uniformly on $\text{D}$. Then, for each mother location, the number of child-events are generated, and the child-events are distributed according to their intensity pdf's. At last, all child-events outside $\text{D}$ are removed.
 
 By studying the redwood tree data in figure \@ref(fig:processes), we try to fit the Neumann-Scott model using the parameters $\lambda_M = 12$, $\lambda_c = 5$, $\sigma_c^2 = 0.05^2$. 100 realisations of the model is simulated, and 0.9-confidence intervals for the L-function is displayed along with the empirical L-function for the redwood tree data. The result can be seen in figure \@ref(fig:mother-child).
 
 (ref:mother-child) The left figure shows an example of a simulated Neumann-Scott model with parameters $\lambda_M = 12$, $\lambda_c = 5$, $\sigma_c^2 = 0.05^2$. The right figure displays the empirical L-function for the redwood data along with 0.9-confidence intervals for the L-function. These are made from simulation of 100 Neumann-Scott event RF models with the same parameters.
 
 ```{r mother-child, fig.cap = "(ref:mother-child)", fig.show="hold", out.width="45%"}
+############
+## Problem 3
 
 mothers <- 12
 children <- 5

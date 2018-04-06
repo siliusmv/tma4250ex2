@@ -1,6 +1,9 @@
 \section{Problem 2: Bayesian inversion in Poisson RF}
 
 ```{r}
+############
+## Problem 2
+
 pines_data <- ppinit("../data/pines.dat")
 ```
 
