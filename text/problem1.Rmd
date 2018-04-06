@@ -2,8 +2,6 @@
 
 ## a)
 
-\todo[inline]{make sure we use only stationary Poisson or homogenuous Poisson!}
-
 The point patterns from the three different data sets can be seen in figure \@ref(fig:processes). The biological cell data is very evenly spread out. There is absolutely no clustering. This indicates that there is some natural repulsion happening. The cell data might depend on the amount of minerals and moisture of the soil. If to much biological cells get close to each other, they will compete for resources until all but one of them dies.
 
 The redwood locations are highly clustered. This might happen because the redwood trees work together to fend off other tree types. It can also be expected that the trees will be close if the seeds from one tree is unable to travel greater distances.
@@ -54,21 +52,21 @@ The empirical L-function of a point process can be calculated using
 
 Here, $d_{ij}$ denotes the distance between the points $\bm{x}_i$ and $\bm{x}_j$, with $i,j = 1,...,n$. The estimator $\hat{\lambda}_k$ is simply the number of events $n$ divided by the area of the region containing the point process.
 
-The L-function is independent of the location of $\bm{x}_0$. Thus \todo[inline]{I don't understand how I am supposed to explain this. I really don't understand it myself... Not sure that it's very important, though} it can be found that for a homogenuous Poisson process, $E\left[k_{B_{\bm{x}_0}(t)} - 1\right] = \lambda_k \pi t^2$. One therefore finds $\text{L}_2(t) = t$. The clustering or repulsion of a point process can also be measured using the J-function,
+The L-function is independent of the location of $\bm{x}_0$. Thus \todo[inline]{I don't understand how I am supposed to explain this. I really don't understand it myself... Not sure that it's very important, though} it can be found that for a stationary Poisson process, $E\left[k_{B_{\bm{x}_0}(t)} - 1\right] = \lambda_k \pi t^2$. One therefore finds $\text{L}_2(t) = t$. The clustering or repulsion of a point process can also be measured using the J-function,
 
 \begin{equation}
 J(t) = \frac{E\left[k_{B_{\bm{x}_0}(t)} - 1\right]}{|B_{\bm{x}_0}(t)|}. 
 \end{equation}
 
-For a homogenuous Poisson process, the theoretical J-function takes the constant value $J(t) = \lambda_k$.
+For a stationary Poisson process, the theoretical J-function takes the constant value $J(t) = \lambda_k$.
 
 Using the built-in function `spatial::Kfn()`, the empirical L-function for a point process can be computed. The empirical L-functions for the three data sets can be seen in figure \@ref(fig:l-func). The L-function for the pine trees seems to follow a straight line with slope 1. This is a strong indicator of a homogeneous Poisson process. 
 
-The L-function of the biological cell data is equal to zero when $t$ is small. It grows quickly in the interval $t \in (0.1, 0.2)$ and approximately follows a slope of 1 for large distances. This indicates that the probability of finding two points with an intermediate distance of less than 0.1 is very small i.e. the process might be described well with a repulsive event RF. Therefore, a homogenuous Poisson RF does not appear to be a suitable model for the point pattern.
+The L-function of the biological cell data is equal to zero when $t$ is small. It grows quickly in the interval $t \in (0.1, 0.2)$ and approximately follows a slope of 1 for large distances. This indicates that the probability of finding two points with an intermediate distance of less than 0.1 is very small i.e. the process might be described well with a repulsive event RF. Therefore, a stationary Poisson RF does not appear to be a suitable model for the point pattern.
 
-The redwood tree data has an L-function that grows quickly for small values of $t$. This indicates a large probability of finding points that are close to each other. Therefore, the process might be modeled well using a clustered event RF. A homogenuous Poisson RF does not appear to be a suitable model for this point pattern.
+The redwood tree data has an L-function that grows quickly for small values of $t$. This indicates a large probability of finding points that are close to each other. Therefore, the process might be modeled well using a clustered event RF. A stationary Poisson RF does not appear to be a suitable model for this point pattern.
 
-(ref:l-func) Empirical L-functions for biological cell data, redwood tree data and pine tree data. The dotted line is the theoretical L-function for a homogenuous Poisson process.
+(ref:l-func) Empirical L-functions for biological cell data, redwood tree data and pine tree data. The dotted line is the theoretical L-function for a stationary Poisson process.
 
 ```{r l-func, fig.show="hold", out.width="32%", fig.cap="(ref:l-func)", fig.asp = 1}
 
@@ -96,7 +94,7 @@ We test whether the aforementioned point processes can be modelled as stationary
 
 ```{r mc-test, fig.show = "hold", out.width="32%", fig.asp=1, fig.cap = "(ref:mc-test)"}
 
-# Simulate homogenuous poisson processes and display L-function intervals
+# Simulate stationary poisson processes and display L-function intervals
 # along with those from the given data
 
 testModel(data = cells_data,
